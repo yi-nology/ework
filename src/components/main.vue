@@ -30,7 +30,7 @@
                 </Header>
                 <NavSub :data="data" :spinShow="spinShow"></NavSub>
 
-                <Footer class="layout-footer-center">Murphyyi ©2020 Created by yiwork <a
+                <Footer class="layout-footer-center">Murphyyi ©2020 Created by ework <a
                         href="https://github.com/zy84338719/ework" target="_blank">GitHub</a></Footer>
             </Layout>
         </Layout>

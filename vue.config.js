@@ -1,7 +1,7 @@
 const path = require('path');
 // eslint-disable-next-line no-unused-vars
 const webpack = require('webpack');
-const UglifyPlugin = require("uglifyjs-webpack-plugin");
+// const UglifyPlugin = require("uglifyjs-webpack-plugin");
 
 
 module.exports = {
