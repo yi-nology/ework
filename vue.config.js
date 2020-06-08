@@ -40,15 +40,15 @@ module.exports = {
                     }
                 },
                 minimizer: [
-                    new UglifyPlugin({
-                        uglifyOptions: {
-                            compress: {
-                                drop_console: true, // console
-                                drop_debugger: false,
-                                pure_funcs: ["console.log"] // 移除console
-                            }
-                        }
-                    })
+                    // new UglifyPlugin({
+                    //     uglifyOptions: {
+                    //         compress: {
+                    //             drop_console: true, // console
+                    //             drop_debugger: false,
+                    //             pure_funcs: ["console.log"] // 移除console
+                    //         }
+                    //     }
+                    // })
                 ]
             }
             Object.assign(config, {
