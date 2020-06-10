@@ -493,398 +493,67 @@ var sub_component = normalizeComponent(
   title: '公司环境地址',
   name: 'com',
   nav: [{
-    icon: './static/images/jenkins.png',
-    name: 'jenkins',
-    desc: '测试环境Jenkins',
-    link: 'http://127.0.0.1:8080/'
+    icon: 'https://kae.inkept.cn/favicon.ico',
+    name: '服务注册',
+    desc: '每一个服务需要注册一个服务名称，用于服务发现、监控等功能，项目开发之前需要注册自己的服务名称。',
+    link: 'https://kae.inkept.cn/service/name/'
   }, {
     icon: './static/images/confluence.png',
-    name: 'Confluence',
-    desc: 'Confluence, 技术文档',
-    link: 'http://127.0.0.1:8090/'
+    name: 'inke Wiki',
+    desc: 'inke 技术文档',
+    link: 'https://wiki.inkept.cn'
   }, {
-    icon: './static/images/nexus.png',
-    name: 'nexus',
-    desc: 'nexus私服',
-    link: 'http://127.0.0.1:8081/'
-  }, {
-    icon: './static/images/gitlab.png',
-    name: 'Gitlab',
-    desc: 'gitlab 代码托管',
-    link: 'http://127.0.0.1:8880'
-  }, {
-    icon: './static/images/mysql.svg',
-    name: '测试Sql发布平台',
-    desc: '测试Sql发布平台',
-    link: 'http://127.0.0.1:9123/'
-  }, {
-    icon: './static/images/mysql.svg',
-    name: '生产Sql发布平台',
-    desc: '生产Sql发布平台',
-    link: 'http://127.0.0.1:9122/'
-  }, {
-    icon: './static/images/showdoc.png',
-    name: 'Showdoc',
-    desc: '[内部使用]在线API文档、技术文档工具',
-    link: 'http://127.0.0.1:4999/web/#/'
-  }, {
-    icon: './static/images/showdoc.png',
-    name: 'Showdoc',
-    desc: '[外部使用]在线API文档、技术文档工具',
-    link: 'http://127.0.0.1:5999/web/#/'
-  }, {
-    icon: './static/images/easymock.png',
-    name: 'Easymock',
-    desc: 'Mock server, 是一个可视化，并且能快速生成模拟数据的服务',
-    link: 'http://127.0.0.1:7300/login'
-  }]
-});
-// CONCATENATED MODULE: ./src/data/website/test.js
-var ip = '127.0.0.1';
-/* harmony default export */ var test = ({
-  title: '测试环境地址',
-  name: 'test',
-  nav: [{
-    icon: './static/images/confluence.png',
-    name: 'test1',
-    desc: 'Test1环境详细信息',
-    link: 'http://' + ip + ':8090/pages/viewpage.action?pageId=6127905'
+    icon: 'https://deploy.inkept.cn/favicon.ico',
+    name: '部署平台',
+    desc: '部署平台用于创建发布任务。',
+    link: 'https://deploy.inkept.cn/'
   }, {
     icon: './static/images/logio.png',
-    name: 'logio',
-    desc: '查看日志的, admin/logio',
-    link: 'http://' + ip + ':28778'
-  }, {
-    icon: './static/images/cat.ico',
-    name: 'cat',
-    desc: '实时应用监控平台',
-    link: 'http://' + ip + ':8080/cat/s/login'
-  }, {
-    icon: './static/images/nginx.svg',
-    name: 'app_h5',
-    desc: 'app h5',
-    link: 'http://' + ip + ':26230'
-  }, {
-    icon: './static/images/tomcat.png',
-    name: 'app_api',
-    desc: 'app后端接口',
-    link: 'http://' + ip + ':26000'
-  }, {
-    icon: './static/images/tomcat.png',
-    name: 'app_back',
-    desc: '后台管理系统',
-    link: 'http://' + ip + ':26010/back/'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'trade',
-    desc: '后端交易模块',
-    link: 'http://' + ip + ':26220'
-  }, {
-    icon: './static/images/tomcat.png',
-    name: 'promotion',
-    desc: '运营推广',
-    link: 'http://' + ip + ':26084'
-  }, {
-    icon: './static/images/tomcat.png',
-    name: 'activity_h5',
-    desc: 'APP活动页面',
-    link: 'http://' + ip + ':26086'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'activity_api',
-    desc: '活动后端接口',
-    link: 'http://' + ip + ':26383'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'payment',
-    desc: '支付中心',
-    link: 'http://' + ip + ':28000'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'payment_gw',
-    desc: '支付中心h5页面网关接口',
-    link: 'http://' + ip + ':28010'
-  }, {
-    icon: './static/images/nginx.svg',
-    name: 'payment_h5',
-    desc: '支付中心h5页面',
-    link: 'http://' + ip + ':28020'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'payment_callback',
-    desc: '支付中心回调系统',
-    link: 'http://' + ip + ':28030'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'openapi',
-    desc: '对外交互，重构用户系统对接第三方',
-    link: 'http://' + ip + ':21040'
-  }, {
-    icon: './static/images/tomcat.png',
-    name: 'sms',
-    desc: '短信',
-    link: 'http://' + ip + ':26030'
-  }, {
-    icon: './static/images/php.png',
-    name: 'php_api',
-    desc: 'php api接口',
-    link: 'http://' + ip + ':26040'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'component_eureka',
-    desc: '服务注册',
-    link: 'http://' + ip + ':21000'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'component_apigateway',
-    desc: 'API网关(zuul)',
-    link: 'http://' + ip + ':21010'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'component_mq',
-    desc: '消息消费调度中心',
-    link: 'http://' + ip + ':21020'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'component_scheduler',
-    desc: '任务调度系统',
-    link: 'http://' + ip + ':21030'
-  }]
-});
-// CONCATENATED MODULE: ./src/data/website/pre.js
-var pre_ip = '127.0.0.1';
-/* harmony default export */ var pre = ({
-  title: '预发环境地址',
-  name: 'pre',
-  nav: [{
-    icon: './static/images/confluence.png',
-    name: 'pre',
-    desc: 'Pre环境详细信息',
-    link: 'http://' + pre_ip + ':8090/pages/viewpage.action?pageId=6127905'
+    name: 'open-facon',
+    desc: '监控平台，查询服务各项监控数据',
+    link: 'http://monitorvpc.inkept.cn/'
   }, {
     icon: './static/images/logio.png',
-    name: 'logio',
-    desc: '查看日志的, admin/logio',
-    link: 'http://' + pre_ip + ':28778'
-  }, {
-    icon: './static/images/cat.ico',
-    name: 'cat',
-    desc: '实时应用监控平台',
-    link: 'http://' + pre_ip + ':8080/cat/s/login'
-  }, {
-    icon: './static/images/nginx.svg',
-    name: 'app_h5',
-    desc: 'app h5',
-    link: 'http://' + pre_ip + ':26230'
-  }, {
-    icon: './static/images/tomcat.png',
-    name: 'app_api',
-    desc: 'app后端接口',
-    link: 'http://' + pre_ip + ':26000'
-  }, {
-    icon: './static/images/tomcat.png',
-    name: 'app_back',
-    desc: '后台管理系统',
-    link: 'http://' + pre_ip + ':26010/back/'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'trade',
-    desc: '后端交易模块',
-    link: 'http://' + pre_ip + ':26220'
-  }, {
-    icon: './static/images/tomcat.png',
-    name: 'promotion',
-    desc: '运营推广',
-    link: 'http://' + pre_ip + ':26084'
-  }, {
-    icon: './static/images/tomcat.png',
-    name: 'activity_h5',
-    desc: 'APP活动页面',
-    link: 'http://' + pre_ip + ':26086'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'activity_api',
-    desc: '活动后端接口',
-    link: 'http://' + pre_ip + ':26383'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'payment',
-    desc: '支付中心',
-    link: 'http://' + pre_ip + ':28000'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'payment_gw',
-    desc: '支付中心h5页面网关接口',
-    link: 'http://' + pre_ip + ':28010'
-  }, {
-    icon: './static/images/nginx.svg',
-    name: 'payment_h5',
-    desc: '支付中心h5页面',
-    link: 'http://' + pre_ip + ':28020'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'payment_callback',
-    desc: '支付中心回调系统',
-    link: 'http://' + pre_ip + ':28030'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'openapi',
-    desc: '对外交互，重构用户系统对接第三方',
-    link: 'http://' + pre_ip + ':21040'
-  }, {
-    icon: './static/images/tomcat.png',
-    name: 'sms',
-    desc: '短信',
-    link: 'http://' + pre_ip + ':26030'
-  }, {
-    icon: './static/images/php.png',
-    name: 'php_api',
-    desc: 'php api接口',
-    link: 'http://' + pre_ip + ':26040'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'component_eureka',
-    desc: '服务注册',
-    link: 'http://' + pre_ip + ':21000'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'component_apigateway',
-    desc: 'API网关(zuul)',
-    link: 'http://' + pre_ip + ':21010'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'component_mq',
-    desc: '消息消费调度中心',
-    link: 'http://' + pre_ip + ':21020'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'component_scheduler',
-    desc: '任务调度系统',
-    link: 'http://' + pre_ip + ':21030'
-  }]
-});
-// CONCATENATED MODULE: ./src/data/website/prod.js
-var prod_ip = '127.0.0.1';
-/* harmony default export */ var prod = ({
-  title: '生产环境地址',
-  name: 'prod',
-  nav: [{
-    icon: './static/images/confluence.png',
-    name: 'prod',
-    desc: 'Prod环境详细信息',
-    link: 'http://' + prod_ip + ':8090/pages/viewpage.action?pageId=6127905'
+    name: '运维平台',
+    desc: '里面包含工单系统等功能服务',
+    link: 'https://pe.inkept.cn/'
   }, {
     icon: './static/images/logio.png',
-    name: 'logio',
-    desc: '查看日志的, admin/logio',
-    link: 'http://' + prod_ip + ':28778'
+    name: 'trace',
+    desc: '线上日志查询追踪',
+    link: 'https://trace.inkept.cn/'
   }, {
-    icon: './static/images/cat.ico',
-    name: 'cat',
-    desc: '实时应用监控平台',
-    link: 'http://' + prod_ip + ':8080/cat/s/login'
+    icon: 'https://worktile.inke.cn/favicon.ico',
+    name: 'worktile',
+    desc: '工作任务池',
+    link: 'https://worktile.inke.cn/'
   }, {
-    icon: './static/images/nginx.svg',
-    name: 'app_h5',
-    desc: 'app h5',
-    link: 'http://' + prod_ip + ':26230'
+    icon: 'http://jira.gmugmu.com:8090/favicon.ico',
+    name: '积目文档',
+    desc: '积目文档wiki地址',
+    link: 'http://jira.gmugmu.com:8090/pages/viewpage.action?pageId=2031629'
   }, {
-    icon: './static/images/tomcat.png',
-    name: 'app_api',
-    desc: 'app后端接口',
-    link: 'http://' + prod_ip + ':26000'
+    icon: './static/images/logio.png',
+    name: '积目consul',
+    desc: '积目consul地址',
+    link: 'http://consuladmin.gmugmu.com/ui/'
   }, {
-    icon: './static/images/tomcat.png',
-    name: 'app_back',
-    desc: '后台管理系统',
-    link: 'http://' + prod_ip + ':26010/back/'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'trade',
-    desc: '后端交易模块',
-    link: 'http://' + prod_ip + ':26220'
-  }, {
-    icon: './static/images/tomcat.png',
-    name: 'promotion',
-    desc: '运营推广',
-    link: 'http://' + prod_ip + ':26084'
-  }, {
-    icon: './static/images/tomcat.png',
-    name: 'activity_h5',
-    desc: 'APP活动页面',
-    link: 'http://' + prod_ip + ':26086'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'activity_api',
-    desc: '活动后端接口',
-    link: 'http://' + prod_ip + ':26383'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'payment',
-    desc: '支付中心',
-    link: 'http://' + prod_ip + ':28000'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'payment_gw',
-    desc: '支付中心h5页面网关接口',
-    link: 'http://' + prod_ip + ':28010'
-  }, {
-    icon: './static/images/nginx.svg',
-    name: 'payment_h5',
-    desc: '支付中心h5页面',
-    link: 'http://' + prod_ip + ':28020'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'payment_callback',
-    desc: '支付中心回调系统',
-    link: 'http://' + prod_ip + ':28030'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'openapi',
-    desc: '对外交互，重构用户系统对接第三方',
-    link: 'http://' + prod_ip + ':21040'
-  }, {
-    icon: './static/images/tomcat.png',
-    name: 'sms',
-    desc: '短信',
-    link: 'http://' + prod_ip + ':26030'
-  }, {
-    icon: './static/images/php.png',
-    name: 'php_api',
-    desc: 'php api接口',
-    link: 'http://' + prod_ip + ':26040'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'component_eureka',
-    desc: '服务注册',
-    link: 'http://' + prod_ip + ':21000'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'component_apigateway',
-    desc: 'API网关(zuul)',
-    link: 'http://' + prod_ip + ':21010'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'component_mq',
-    desc: '消息消费调度中心',
-    link: 'http://' + prod_ip + ':21020'
-  }, {
-    icon: './static/images/spring.png',
-    name: 'component_scheduler',
-    desc: '任务调度系统',
-    link: 'http://' + prod_ip + ':21030'
+    icon: './static/images/logio.png',
+    name: '积目service_info',
+    desc: '积目service_info地址',
+    link: 'https://zt.meeshow.com/#/component/service'
   }]
 });
 // CONCATENATED MODULE: ./src/data/data.js
-
-
-
+ // import test from '@/data/website/test'
+// import pre from '@/data/website/pre'
+// import prod from '@/data/website/prod'
 
 /* harmony default export */ var data_data = ({
-  company: company,
-  test: test,
-  pre: pre,
-  prod: prod
+  company: company // test,
+  // pre,
+  // prod
+
 });
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/main.vue?vue&type=script&lang=js&
 
