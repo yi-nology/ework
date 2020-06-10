@@ -1041,7 +1041,7 @@ var main_component = normalizeComponent(
 vue_runtime_esm["default"].use(vue_router_esm["a" /* default */]);
 var router = new vue_router_esm["a" /* default */]({
   mode: 'history',
-  base: "",
+  base: "/",
   routes: [{
     path: '/',
     name: 'Main',
