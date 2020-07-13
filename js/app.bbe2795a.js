@@ -493,55 +493,10 @@ var sub_component = normalizeComponent(
   title: '公司环境地址',
   name: 'com',
   nav: [{
-    icon: 'https://kae.inkept.cn/favicon.ico',
-    name: '服务注册',
-    desc: '每一个服务需要注册一个服务名称，用于服务发现、监控等功能，项目开发之前需要注册自己的服务名称。',
-    link: 'https://kae.inkept.cn/service/name/'
-  }, {
     icon: './static/images/confluence.png',
-    name: 'inke Wiki',
-    desc: 'inke 技术文档',
-    link: 'https://wiki.inkept.cn'
-  }, {
-    icon: 'https://deploy.inkept.cn/favicon.ico',
-    name: '部署平台',
-    desc: '部署平台用于创建发布任务。',
-    link: 'https://deploy.inkept.cn/'
-  }, {
-    icon: './static/images/logio.png',
-    name: 'open-facon',
-    desc: '监控平台，查询服务各项监控数据',
-    link: 'http://monitorvpc.inkept.cn/'
-  }, {
-    icon: './static/images/logio.png',
-    name: '运维平台',
-    desc: '里面包含工单系统等功能服务',
-    link: 'https://pe.inkept.cn/'
-  }, {
-    icon: './static/images/logio.png',
-    name: 'trace',
-    desc: '线上日志查询追踪',
-    link: 'https://trace.inkept.cn/'
-  }, {
-    icon: 'https://worktile.inke.cn/favicon.ico',
-    name: 'worktile',
-    desc: '工作任务池',
-    link: 'https://worktile.inke.cn/'
-  }, {
-    icon: 'http://jira.gmugmu.com:8090/favicon.ico',
-    name: '积目文档',
-    desc: '积目文档wiki地址',
-    link: 'http://jira.gmugmu.com:8090/pages/viewpage.action?pageId=2031629'
-  }, {
-    icon: './static/images/logio.png',
-    name: '积目consul',
-    desc: '积目consul地址',
-    link: 'http://consuladmin.gmugmu.com/ui/'
-  }, {
-    icon: './static/images/logio.png',
-    name: '积目service_info',
-    desc: '积目service_info地址',
-    link: 'https://zt.meeshow.com/#/component/service'
+    name: 'pre',
+    desc: 'Pre环境详细信息',
+    link: 'http://' + ip + ':8090/pages/viewpage.action?pageId=6127905'
   }]
 });
 // CONCATENATED MODULE: ./src/data/data.js
