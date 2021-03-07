@@ -47,7 +47,7 @@
                 isCollapsed: false,
                 search: '',
                 searchStatus: false,
-                data: Data,
+                data: {},
                 sourceData: '',
                 serarchNum: 0,
                 spinShow: false
