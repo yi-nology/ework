@@ -19,7 +19,7 @@ service.interceptors.response.use((resp) => {
 
 export function GetWebData() {
     return service({
-        url: "https://github.com/zy84338719/ework/tree/zy/data/web.json",
+        url: "https://raw.githubusercontent.com/zy84338719/ework/zy/data/web.json",
         method: "get",
     });
 }
