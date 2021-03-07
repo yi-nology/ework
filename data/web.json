@@ -43,6 +43,12 @@
       "name": "Github",
       "desc": "全球最大的程序员同志交友网站",
       "link": "https://github.com/"
+    },
+    {
+      "icon": "https://godoc.murphyyi.com/favicon.ico",
+      "name": "GoDoc",
+      "desc": "全球最大的程序员同志交友网站",
+      "link": "https://godoc.murphyyi.com/"
     }
   ]
 },
