@@ -64,8 +64,7 @@
         methods: {
             githubWebData(){
               GetWebData().then((data)=>{
-                this.data=data
-                console.log(data)
+                this.data=data.data
               }).finally()
             },
             jumpAnchor(name) {
