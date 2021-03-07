@@ -39,8 +39,8 @@
 </template>
 <script>
     import NavSub from '@/components/card/sub'
-    import Data from '@/data/data'
-
+    // import Data from '@/data/data'
+    import {GetWebData} from "@/api/github"
     export default {
         data() {
             return {
@@ -59,9 +59,14 @@
                     'menu-item',
                     this.isCollapsed ? 'collapsed-menu' : ''
                 ]
-            }
+            },
         },
         methods: {
+            githubWebData(){
+              GetWebData().then((data)=>{
+                this.data=data
+              }).finally()
+            },
             jumpAnchor(name) {
                 if (document.documentElement.clientWidth <= 768) {
                     this.isCollapsed = true
@@ -110,7 +115,10 @@
                 }, 1000)
             }
         },
-        components: {
+      created() {
+          this.githubWebData()
+      },
+      components: {
             NavSub
         }
     }
