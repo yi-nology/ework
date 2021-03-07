@@ -45,10 +45,10 @@
       "link": "https://github.com/"
     },
     {
-      "icon": "https://godoc.murphyyi.com/favicon.ico",
+      "icon": "http://godoc.murphyyi.com/favicon.ico",
       "name": "GoDoc",
       "desc": "Golang 学习手册",
-      "link": "https://godoc.murphyyi.com/"
+      "link": "http://godoc.murphyyi.com/"
     }
   ]
 },
