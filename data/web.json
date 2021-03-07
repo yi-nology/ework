@@ -23,14 +23,20 @@
     {
       "icon": "https://oktools.net/favicon.ico",
       "name": "JSON 2 GO",
-      "desc": "开源画图",
+      "desc": "JSON to Golang struct",
       "link": "https://oktools.net/json2go"
     },
     {
       "icon": "https://app.diagrams.net/favicon.ico",
       "name": "程序设计画图",
-      "desc": "开源画图",
+      "desc": "开源画图,开箱即用",
       "link": "https://app.diagrams.net/"
+    },
+    {
+      "icon": "https://curl.6cm.co/favicon.ico",
+      "name": "CURL 2 lang",
+      "desc": "CURL 转 语言代码",
+      "link": "https://curl.6cm.co/"
     },
     {
       "icon": "https://github.com/favicon.ico",
@@ -51,10 +57,21 @@
         "link": "https://www.baidu.com"
       },
       {
+        "icon": "https://www.processon.com/favicon.ico",
+        "name": "processon",
+        "desc": "绘图必备",
+        "link": "https://www.processon.com"
+      },
+      {
         "icon": "https://www.yuque.com/favicon.ico",
         "name": "语雀",
         "desc": "知识总结，就在此刻",
         "link": "https://www.yuque.com"
+      },{
+        "icon": "https://www.toutiao.com/favicon.ico",
+        "name": "头条",
+        "desc": "天下之事，尽在你手",
+        "link": "https://www.toutiao.com/"
       }
     ]
   }
