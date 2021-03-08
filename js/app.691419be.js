@@ -528,7 +528,7 @@ service.interceptors.response.use(function (resp) {
 });
 function GetWebData() {
   return service({
-    url: "https://raw.githubusercontent.com/zy84338719/ework/data/web.json",
+    url: "https://ework-1251965636.cos.ap-beijing.myqcloud.com/web.json",
     method: "get"
   });
 }
