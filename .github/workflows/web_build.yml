@@ -23,5 +23,5 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: data
-        run: |
+        run:
           export COS_SECRETID=${{ secrets.COS_SECRETID }} && export COS_SECRETKEY=${{ secrets.COS_SECRETKEY }} && go run main.go
