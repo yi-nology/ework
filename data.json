@@ -76,14 +76,26 @@
     ]
   },
   {
-    "title": "程序员常用网址",
+    "title": "大佬推荐网站",
     "name": "code",
     "nav": [
       {
-        "icon": "https://www.proginn.com=/favicon.ico",
-        "name": "程序员客栈",
-        "desc": "来易来看一看，程序员的休息处",
-        "link": "https://www.proginn.com/"
+        "icon": "https://tech.meituan.com/favicon.ico",
+        "name": "美团点评",
+        "desc": "美团点评技术站点",
+        "link": "https://tech.meituan.com/"
+      },
+      {
+        "icon": "https://www.zhihu.com/favicon.ico",
+        "name": "美团点评知乎",
+        "desc": "美团点评技术知乎站点",
+        "link": "https://www.zhihu.com/org/mei-tuan-dian-ping-ji-shu-tuan-dui/posts"
+      },
+      {
+        "icon": "https://www.zhihu.com/favicon.ico",
+        "name": "腾讯云知乎技术",
+        "desc": "腾讯大讲堂",
+        "link": "https://www.zhihu.com/org/teng-xun-yun-ji-zhu-she-qu/posts"
       }
     ]
   }
