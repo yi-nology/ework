@@ -1,0 +1,23 @@
+name: build data to cos
+on:
+  push:
+    branches:
+      - data
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go 1.16
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.16
+        id: go
+
+      - name: checkout data
+        uses: actions/checkout@v2
+        with:
+          ref: data
+      - name: Build
+        run:
+          export COS_SECRETID=${{ secrets.COS_SECRETID }} && export COS_SECRETKEY=${{ secrets.COS_SECRETKEY }} && go run main.go
