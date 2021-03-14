@@ -27,12 +27,6 @@
       "link": "https://oktools.net/json2go"
     },
     {
-      "icon": "https://app.diagrams.net/favicon.ico",
-      "name": "程序设计画图",
-      "desc": "开源画图,开箱即用",
-      "link": "https://app.diagrams.net/"
-    },
-    {
       "icon": "https://curl.6cm.co/favicon.ico",
       "name": "CURL 2 lang",
       "desc": "CURL 转 语言代码",
