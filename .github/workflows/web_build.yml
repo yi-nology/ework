@@ -19,9 +19,9 @@ jobs:
           publish_branch: master
           publish_dir: ./dist
           commit_message: auto deploy
-      - name: checkout data
-        uses: actions/checkout@v2
-        with:
-          ref: data
-        run:
-          export COS_SECRETID=${{ secrets.COS_SECRETID }} && export COS_SECRETKEY=${{ secrets.COS_SECRETKEY }} && go run main.go
+#      - name: checkout data
+#        uses: actions/checkout@v2
+#        with:
+#          ref: data
+#        run:
+#          export COS_SECRETID=${{ secrets.COS_SECRETID }} && export COS_SECRETKEY=${{ secrets.COS_SECRETKEY }} && go run main.go
