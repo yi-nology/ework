@@ -1,4 +1,4 @@
-name: 网站部署，构建
+name: web build deploy
 on: [push, repository_dispatch]
 jobs:
   build-and-deploy:
