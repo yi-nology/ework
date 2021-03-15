@@ -15,6 +15,12 @@
       "link": "https://app.diagrams.net/"
     },
     {
+      "icon": "https://tool.oschina.net/favicon.ico",
+      "name": "Base64 加密解密",
+      "desc": "Base64 加密解密",
+      "link": "https://tool.oschina.net/encrypt?type=3"
+    },
+    {
       "icon": "https://www.bejson.com/favicon.ico",
       "name": "JSON美化",
       "desc": "JSON美化社区，访问即用",
