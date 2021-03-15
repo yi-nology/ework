@@ -68,6 +68,12 @@
         "desc": "绘图必备",
         "link": "https://www.processon.com"
       },
+       {
+        "icon": "https://www.youtube.com/favicon.ico",
+        "name": "youtube",
+        "desc": "youtube",
+        "link": "https://www.youtube.com/"
+      },
       {
         "icon": "https://www.yuque.com/favicon.ico",
         "name": "语雀",
