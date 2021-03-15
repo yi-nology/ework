@@ -104,6 +104,18 @@
         "link": "https://www.zhihu.com/org/teng-xun-yun-ji-zhu-she-qu/posts"
       }
     ]
+  },
+ {
+    "title": "关于我",
+    "name": "mine",
+    "nav": [
+      {
+        "icon": "https://blog.murphyyi.com/favicon.ico",
+        "name": "murphyyi blog",
+        "desc": "墨菲易博客",
+        "link": "https://blog.murphyyi.com/"
+      }
+    ]
   }
 ]
 
