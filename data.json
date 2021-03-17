@@ -88,7 +88,7 @@
     ]
   },
   {
-    "title": "大佬推荐网站",
+    "title": "大厂团队博客网站",
     "name": "coder",
     "nav": [
       {
@@ -108,6 +108,12 @@
         "name": "腾讯云知乎技术",
         "desc": "腾讯大讲堂",
         "link": "https://www.zhihu.com/org/teng-xun-yun-ji-zhu-she-qu/posts"
+      },
+      {
+        "icon": "https://www.zhihu.com/favicon.ico",
+        "name": "爱奇艺产品技术团队",
+        "desc": "爱奇艺产品技术团队",
+        "link": "https://www.zhihu.com/org/ai-qi-yi-ji-zhu-chan-pin-tuan-dui"
       }
     ]
   },
