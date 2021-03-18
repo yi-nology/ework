@@ -116,18 +116,6 @@
         "link": "https://www.zhihu.com/org/ai-qi-yi-ji-zhu-chan-pin-tuan-dui"
       }
     ]
-  },
- {
-    "title": "关于我",
-    "name": "mine",
-    "nav": [
-      {
-        "icon": "https://cv.murphyyi.com/favicon.ico",
-        "name": "murphyyi 简介",
-        "desc": "murphyyi 简介",
-        "link": "https://cv.murphyyi.com/"
-      }
-    ]
   }
 ]
 
