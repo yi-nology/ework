@@ -122,10 +122,10 @@
     "name": "mine",
     "nav": [
       {
-        "icon": "https://blog.murphyyi.com/favicon.ico",
-        "name": "murphyyi blog",
-        "desc": "墨菲易博客",
-        "link": "https://blog.murphyyi.com/"
+        "icon": "https://cv.murphyyi.com/favicon.ico",
+        "name": "murphyyi 简介",
+        "desc": "murphyyi 简介",
+        "link": "https://cv.murphyyi.com/"
       }
     ]
   }
