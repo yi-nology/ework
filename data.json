@@ -45,6 +45,12 @@
       "link": "http://www.redis.cn/redis_memory/"
     },
     {
+      "icon": "https://do.co/nginxconfig/favicon.ico",
+      "name": "nginx 配置模拟",
+      "desc": "nginx 粗模拟",
+      "link": "https://do.co/nginxconfig"
+    },
+    {
       "icon": "https://github.com/favicon.ico",
       "name": "Github",
       "desc": "全球最大的程序员同志交友网站",
