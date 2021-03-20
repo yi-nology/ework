@@ -39,6 +39,12 @@
       "link": "https://curl.6cm.co/"
     },
     {
+      "icon": "http://www.redis.cn/favicon.ico",
+      "name": "redis 计算器",
+      "desc": "redis 内存占用粗算",
+      "link": "http://www.redis.cn/redis_memory/"
+    },
+    {
       "icon": "https://github.com/favicon.ico",
       "name": "Github",
       "desc": "全球最大的程序员同志交友网站",
