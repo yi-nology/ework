@@ -128,6 +128,18 @@
         "link": "https://www.zhihu.com/org/ai-qi-yi-ji-zhu-chan-pin-tuan-dui"
       }
     ]
+  },
+   {
+    "title": "生活工具",
+    "name": "tools",
+    "nav": [
+      {
+        "icon": "https://zy84338719.github.io/favicon.ico",
+        "name": "WiFi 分享工具",
+        "desc": "WiFi 分享工具",
+        "link": "https://zy84338719.github.io/wifi-qr/"
+      }
+    ]
   }
 ]
 
