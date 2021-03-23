@@ -144,7 +144,13 @@
         "name": "效率工具",
         "desc": "效率工具",
         "link": "https://www.teambition.com/"
-      }
+      },
+       {
+        "icon": "https://byoungd.gitbook.io/english-level-up-tips/favicon.ico",
+        "name": "英语学习",
+        "desc": "英语学习",
+        "link": "https://byoungd.gitbook.io/english-level-up-tips/"
+      },
     ]
   }
 ]
