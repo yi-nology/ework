@@ -96,6 +96,18 @@
         "name": "头条",
         "desc": "天下之事，尽在你手",
         "link": "https://www.toutiao.com/"
+      },
+      {
+        "icon": "https://www.aliyundrive.com/favicon.ico",
+        "name": "阿里云盘",
+        "desc": "海纳百川",
+        "link": "https://www.aliyundrive.com"
+      },
+      {
+        "icon": "https://pan.murphyyi.com/favicon.ico",
+        "name": "常用软件分享",
+        "desc": "这里拥有你需要常用的所有软件，涵盖windows macos ios等",
+        "link": "https://pan.murphyyi.com/%E5%B7%A5%E5%85%B7%E5%88%86%E4%BA%AB"
       }
     ]
   },
