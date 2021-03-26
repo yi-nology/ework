@@ -138,6 +138,12 @@
         "name": "爱奇艺产品技术团队",
         "desc": "爱奇艺产品技术团队",
         "link": "https://www.zhihu.com/org/ai-qi-yi-ji-zhu-chan-pin-tuan-dui"
+      },
+      {
+        "icon": "https://www.zhihu.com/favicon.ico",
+        "name": "互联网安全SecWiki",
+        "desc": "互联网安全SecWiki",
+        "link": "https://www.sec-wiki.com/index.php"
       }
     ]
   },
