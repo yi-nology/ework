@@ -61,6 +61,12 @@
       "name": "GoDoc",
       "desc": "Golang 学习手册",
       "link": "http://godoc.murphyyi.com/"
+    },
+    {
+      "icon": "https://www.kancloud.cn/favicon.ico",
+      "name": "面试手册",
+      "desc": "Golang面试手册",
+      "link": "https://www.kancloud.cn/aceld/golang/1858955"
     }
   ]
 },
