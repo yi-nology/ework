@@ -150,6 +150,12 @@
         "name": "互联网安全SecWiki",
         "desc": "互联网安全SecWiki",
         "link": "https://www.sec-wiki.com/index.php"
+      },
+       {
+        "icon": "http://mysql.taobao.org/favicon.ico",
+        "name": "淘宝mysql月报",
+        "desc": "淘宝mysql月报",
+        "link": "http://mysql.taobao.org/monthly/"
       }
     ]
   },
