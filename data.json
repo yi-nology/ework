@@ -146,10 +146,16 @@
         "link": "https://www.zhihu.com/org/ai-qi-yi-ji-zhu-chan-pin-tuan-dui"
       },
       {
-        "icon": "https://www.zhihu.com/favicon.ico",
+        "icon": "https://www.sec-wiki.com/favicon.ico",
         "name": "互联网安全SecWiki",
         "desc": "互联网安全SecWiki",
         "link": "https://www.sec-wiki.com/index.php"
+      },
+      {
+        "icon": "https://www.anquanke.com/favicon.ico",
+        "name": "安全客",
+        "desc": "安全客",
+        "link": "https://www.anquanke.com/"
       },
        {
         "icon": "http://mysql.taobao.org/favicon.ico",
