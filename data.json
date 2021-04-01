@@ -57,10 +57,10 @@
       "link": "https://github.com/"
     },
     {
-      "icon": "http://mkresume.murphyyi.com/favicon.ico",
+      "icon": "http://mdresume.murphyyi.com/favicon.ico",
       "name": "markdown 简历编写",
-      "desc": "极简主义简历编写方案，可以在线打印",
-      "link": "http://mkresume.murphyyi.com/"
+      "desc": "极简主义简历编写方案，可以在线打印, 适合工程、计算机有条理性",
+      "link": "http://mdresume.murphyyi.com/"
     },
     {
       "icon": "http://godoc.murphyyi.com/favicon.ico",
