@@ -57,6 +57,12 @@
       "link": "https://github.com/"
     },
     {
+      "icon": "http://mkresume.murphyyi.com/favicon.ico",
+      "name": "markdown 简历编写",
+      "desc": "极简主义简历编写方案，可以在线打印",
+      "link": "http://mkresume.murphyyi.com/"
+    },
+    {
       "icon": "http://godoc.murphyyi.com/favicon.ico",
       "name": "GoDoc",
       "desc": "Golang 学习手册",
