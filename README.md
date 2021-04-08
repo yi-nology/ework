@@ -30,4 +30,4 @@ yarn build
 
 ## 效果演示
 
-[查看demo请戳这里](https://zy84338719.github.io/ework)
+[查看demo请戳这里](https://yi-nology.github.io/ework)
