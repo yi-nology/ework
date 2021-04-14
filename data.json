@@ -93,6 +93,12 @@
         "link": "https://www.processon.com"
       },
        {
+        "icon": "https://music.murphyyi.com/favicon.ico",
+        "name": "网易云音乐",
+        "desc": "网易音乐",
+        "link": "https://music.murphyyi.com/"
+      },
+       {
         "icon": "https://www.youtube.com/favicon.ico",
         "name": "youtube",
         "desc": "youtube",
