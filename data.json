@@ -3,6 +3,12 @@
   "name": "backend",
   "nav": [
     {
+      "icon": "https://proxy.murphyyi.workers.dev/favicon.ico",
+      "name": "代理",
+      "desc": "仅供研究使用",
+      "link": "https://proxy.murphyyi.workers.dev"
+    },
+    {
       "icon": "https://www.google.com/favicon.ico",
       "name": "Google",
       "desc": "谷歌一下，你全都知道",
