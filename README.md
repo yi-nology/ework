@@ -1,6 +1,8 @@
 # ework [GitHub](https://ework.murphyyi.com) 
 
 > `ework`是一个简便的网址导航站,省去到处找服务地址烦恼......
+> 
+仅需要将 src/api/github.js 中 GetWebService 地址修改为内网地址即可 记得添加跨域 信息
 
 ## 添加网址
 
