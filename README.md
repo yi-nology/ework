@@ -35,6 +35,8 @@ yarn build
 [查看demo请戳这里](https://yi-nology.github.io/ework)
 
 ## 技术栈
-
-vue2 + vuex + vue-router + vue-lazyload + iview +  clipboard + js-cookie + webpack + less + sass
+web：
+   vue2 + vuex + vue-router + vue-lazyload + iview +  clipboard + js-cookie + webpack + less + sass
+backend:
+   golang
 
