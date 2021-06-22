@@ -3,55 +3,55 @@
   "name": "backend",
   "nav": [
     {
-      "icon": "https://proxy.murphyyi.workers.dev/favicon.ico",
+      "icon": "https://api.iowen.cn/favicon/proxy.murphyyi.workers.dev.png",
       "name": "代理",
       "desc": "仅供研究使用",
       "link": "https://proxy.murphyyi.workers.dev"
     },
     {
-      "icon": "https://www.google.com/favicon.ico",
+      "icon": "https://api.iowen.cn/favicon/www.google.com.png",
       "name": "Google",
       "desc": "谷歌一下，你全都知道",
       "link": "https://www.google.com"
     },
     {
-      "icon": "https://app.diagrams.net/favicon.ico",
+      "icon": "https://api.iowen.cn/favicon/app.diagrams.net.png",
       "name": "程序设计画图",
       "desc": "开源画图",
       "link": "https://app.diagrams.net/"
     },
     {
-      "icon": "https://tool.oschina.net/favicon.ico",
+      "icon": "https://api.iowen.cn/favicon/tool.oschina.net.png",
       "name": "Base64 加密解密",
       "desc": "Base64 加密解密",
       "link": "https://tool.oschina.net/encrypt?type=3"
     },
     {
-      "icon": "https://www.bejson.com/favicon.ico",
+      "icon": "https://api.iowen.cn/favicon/www.bejson.com.png",
       "name": "JSON美化",
       "desc": "JSON美化社区，访问即用",
       "link": "https://www.bejson.com/"
     },
     {
-      "icon": "https://oktools.net/favicon.ico",
+      "icon": "https://api.iowen.cn/favicon/oktools.net.png",
       "name": "JSON 2 GO",
       "desc": "JSON to Golang struct",
       "link": "https://oktools.net/json2go"
     },
     {
-      "icon": "https://curl.6cm.co/favicon.ico",
+      "icon": "https://api.iowen.cn/favicon/c2l.murphyyi.com.png",
       "name": "CURL 2 lang",
       "desc": "CURL 转 语言代码",
       "link": "http://c2l.murphyyi.com/"
     },
     {
-      "icon": "http://www.redis.cn/favicon.ico",
+      "icon": "https://api.iowen.cn/favicon/www.redis.cn.png",
       "name": "redis 计算器",
       "desc": "redis 内存占用粗算",
       "link": "http://www.redis.cn/redis_memory/"
     },
     {
-      "icon": "https://do.co/nginxconfig/favicon.ico",
+      "icon": "https://api.iowen.cn/favicon/do.co.png",
       "name": "nginx 配置模拟",
       "desc": "nginx 粗模拟",
       "link": "https://do.co/nginxconfig"
@@ -122,7 +122,7 @@
         "link": "https://www.aliyundrive.com"
       },
       {
-        "icon": "https://pan.murphyyi.com/favicon.ico",
+        "icon": "https://api.iowen.cn/favicon/pan.murphyyi.com.png",
         "name": "常用分享",
         "desc": "这里拥有你需要常用的所有软件、方法、教程、书籍，涵盖windows macos ios等",
         "link": "https://pan.murphyyi.com"
@@ -188,7 +188,7 @@
         "link": "https://yi-nology.github.io/wifi-qr/"
       },
       {
-        "icon": "https://www.teambition.com/favicon.ico",
+        "icon": "https://api.iowen.cn/favicon/www.teambition.com.png",
         "name": "效率工具",
         "desc": "效率工具",
         "link": "https://www.teambition.com/"
