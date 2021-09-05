@@ -126,6 +126,12 @@
         "name": "常用分享",
         "desc": "这里拥有你需要常用的所有软件、方法、教程、书籍，涵盖windows macos ios等",
         "link": "https://pan.murphyyi.com"
+      },
+      {
+        "icon": "https://api.iowen.cn/favicon/www.logoly.pro.png",
+        "name": "图表制作",
+        "desc": "制作属于你的icon",
+        "link": "https://www.logoly.pro/#/"
       }
     ]
   },
