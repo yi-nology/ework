@@ -9,6 +9,12 @@
       "link": "https://proxy.murphyyi.workers.dev"
     },
     {
+      "icon": "https://api.iowen.cn/favicon/http://term.murphyyi.com.png",
+      "name": "命令早知道",
+      "desc": "万能的命令行好帮手",
+      "link": "http://term.murphyyi.com"
+    },
+    {
       "icon": "https://api.iowen.cn/favicon/www.google.com.png",
       "name": "Google",
       "desc": "谷歌一下，你全都知道",
