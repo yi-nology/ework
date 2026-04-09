@@ -1,4 +1,4 @@
-# Work [GitHub](https://github.com/yi-nology/ework)
+# EWork [GitHub](https://github.com/yi-nology/ework)
 
 > **Work** 是一个简洁美观的网址导航站，省去到处找服务地址的烦恼。
 > 支持纯静态模式和虹桥计划 (Rainbow Bridge) 远程配置模式。
