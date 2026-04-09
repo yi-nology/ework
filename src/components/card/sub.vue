@@ -1,28 +1,28 @@
 <template>
-    <div>
-        <div id="我的收藏" v-show="favoriteList.length">
+    <div class="card-list">
+        <div id="我的收藏" class="card-section" v-show="favoriteList.length">
             <Card class="nodeCard">
                 <p slot="title" class="anchor">我的收藏<a href="#我的收藏">#</a></p>
-                <a href="#" slot="extra" @click="removeFavorite">
+                <span slot="extra" class="card-extra-btn" @click="removeFavorite">
                     <Icon type="ios-loop-strong"></Icon>
                     清空
-                </a>
+                </span>
                 <Nav :navData="favoriteList" :del=true :spinShow="spinShow"></Nav>
             </Card>
         </div>
-        <div id="常用网址" v-show="usedList.length">
+        <div id="常用网址" class="card-section" v-show="usedList.length">
             <Card class="nodeCard">
                 <p slot="title" class="anchor">常用网址<a href="#常用网址">#</a></p>
-                <a href="#" slot="extra" @click="removeUsed">
+                <span slot="extra" class="card-extra-btn" @click="removeUsed">
                     <Icon type="ios-loop-strong"></Icon>
                     清空
-                </a>
+                </span>
                 <Nav :navData="usedList" :del=true :spinShow="spinShow"></Nav>
             </Card>
         </div>
-        <div :id="item.title"  v-for="(item,index) in data" :key="index" >
+        <div :id="item.title" class="card-section" v-for="(item,index) in data" :key="index">
             <Card class="nodeCard">
-                <p slot="title" class="anchor">{{ item.title }}<a :href="'#' + item.title">#</a> </p>
+                <p slot="title" class="anchor">{{ item.title }}<a :href="'#' + item.title">#</a></p>
                 <p slot="extra">共计：{{ item.nav.length}} 个网址</p>
                 <Nav :navData="item.nav" :subTitle="item.title" :spinShow="spinShow"></Nav>
             </Card>
@@ -68,7 +68,19 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang=less scoped>
+.card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.card-section {
+    .nodeCard {
+        margin: 0;
+    }
+}
+
 .anchor a {
     opacity: 0;
     font-size: 24px;
@@ -78,6 +90,40 @@ export default {
     top: 2px;
 }
 .nodeCard {
-    margin: 20px 20px 0 20px
+    border-radius: 16px !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: var(--card-bg) !important;
+
+    /deep/ .ivu-card-body {
+        padding: 24px !important;
+    }
+
+    /deep/ .ivu-card-head {
+        border-bottom: none !important;
+        padding: 24px 24px 0 24px !important;
+        line-height: normal !important;
+
+        p {
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            color: var(--foreground-primary) !important;
+        }
+
+        .ivu-card-extra {
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+        }
+    }
+}
+
+.card-extra-btn {
+    color: var(--foreground-muted);
+    font-size: 12px;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--accent-primary);
+    }
 }
 </style>

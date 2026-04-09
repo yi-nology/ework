@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build && echo 'ework.murphyyi.com'>> ./dist/CNAME ",
+    "build:static": "vue-cli-service build --mode static && echo 'ework.murphyyi.com'>> ./dist/CNAME ",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
