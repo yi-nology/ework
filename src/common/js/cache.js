@@ -88,3 +88,33 @@ export function removeUsed () {
     Cookies.remove(USED_KEY)
     return []
 }
+
+const RB_SETTINGS_KEY = '__rb_settings__'
+
+const RB_DEFAULTS = {
+    dataMode: process.env.VUE_APP_DATA_MODE || 'local',
+    baseUrl: process.env.VUE_APP_RB_BASE_URL || 'http://localhost:8080/rainbow-bridge',
+    environment: process.env.VUE_APP_RB_ENVIRONMENT || 'navi'
+}
+
+export function loadRbSettings () {
+    const value = Cookies.getJSON(RB_SETTINGS_KEY)
+    if (!value) return { ...RB_DEFAULTS }
+    return {
+        dataMode: value.dataMode || RB_DEFAULTS.dataMode,
+        baseUrl: value.baseUrl || RB_DEFAULTS.baseUrl,
+        environment: value.environment || RB_DEFAULTS.environment
+    }
+}
+
+export function saveRbSettings (settings) {
+    Cookies.set(RB_SETTINGS_KEY, settings)
+}
+
+export function removeRbSettings () {
+    Cookies.remove(RB_SETTINGS_KEY)
+}
+
+export function getRbDefaults () {
+    return { ...RB_DEFAULTS }
+}
