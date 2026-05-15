@@ -22,3 +22,11 @@ yarn-error.log*
 *.sln
 *.sw?
 
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml
+docker-entrypoint.sh
+DOCKER.md
+
