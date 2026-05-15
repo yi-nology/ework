@@ -23,10 +23,4 @@ yarn-error.log*
 *.sw?
 
 
-# Docker
-Dockerfile
-.dockerignore
-docker-compose*.yml
-docker-entrypoint.sh
-DOCKER.md
 

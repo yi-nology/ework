@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  ework-nav:
+    # 使用本地构建镜像
+    build: .
+    # 或使用预构建镜像（取消下面注释，并注释 build 行）
+    # image: ghcr.io/你的用户名/ework-nav:latest
+    container_name: ework-nav
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    volumes:
+      - ./nav-data.json:/usr/share/nginx/html/nav-data.json:ro
+    environment:
+      DATA_MODE: local
+      CONFIG_TYPE: rainbow-bridge
+      RB_BASE_URL: /rainbow-bridge
+      RB_ENVIRONMENT: navi
+      LOCAL_DATA_URL: /nav-data.json
+      NACOS_SERVER_ADDR: http://nacos:8848/nacos
+      NACOS_NAMESPACE: public
+      NACOS_DATA_ID: ework-nav.json
+      NACOS_GROUP: DEFAULT_GROUP
+      APOLLO_META: http://apollo:8080
+      APOLLO_APP_ID: ework-nav
+      APOLLO_NAMESPACE: application
+      SKIP_SSL_VERIFY: "true"
