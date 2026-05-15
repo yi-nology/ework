@@ -1,0 +1,224 @@
+[{
+  "title": "研发常用地址",
+  "name": "backend",
+  "nav": [
+    {
+      "icon": "https://api.iowen.cn/favicon/nav.murphyyi.com.png",
+      "name": "墨菲导航",
+      "desc": "你想要的这全都有",
+      "link": "https://nav.murphyyi.com/"
+    },
+    {
+      "icon": "https://api.iowen.cn/favicon/proxy.murphyyi.workers.dev.png",
+      "name": "代理",
+      "desc": "仅供研究使用",
+      "link": "https://proxy.murphyyi.workers.dev"
+    },
+    {
+      "icon": "https://api.iowen.cn/favicon/http://term.murphyyi.com.png",
+      "name": "命令早知道",
+      "desc": "万能的命令行好帮手",
+      "link": "http://term.murphyyi.com"
+    },
+    {
+      "icon": "https://api.iowen.cn/favicon/www.google.com.png",
+      "name": "Google",
+      "desc": "谷歌一下，你全都知道",
+      "link": "https://www.google.com"
+    },
+    {
+      "icon": "https://api.iowen.cn/favicon/app.diagrams.net.png",
+      "name": "程序设计画图",
+      "desc": "开源画图",
+      "link": "https://app.diagrams.net/"
+    },
+    {
+      "icon": "https://api.iowen.cn/favicon/tool.oschina.net.png",
+      "name": "Base64 加密解密",
+      "desc": "Base64 加密解密",
+      "link": "https://tool.oschina.net/encrypt?type=3"
+    },
+    {
+      "icon": "https://api.iowen.cn/favicon/www.bejson.com.png",
+      "name": "JSON美化",
+      "desc": "JSON美化社区，访问即用",
+      "link": "https://www.bejson.com/"
+    },
+    {
+      "icon": "https://api.iowen.cn/favicon/oktools.net.png",
+      "name": "JSON 2 GO",
+      "desc": "JSON to Golang struct",
+      "link": "https://oktools.net/json2go"
+    },
+    {
+      "icon": "https://api.iowen.cn/favicon/c2l.murphyyi.com.png",
+      "name": "CURL 2 lang",
+      "desc": "CURL 转 语言代码",
+      "link": "http://c2l.murphyyi.com/"
+    },
+    {
+      "icon": "https://api.iowen.cn/favicon/www.redis.cn.png",
+      "name": "redis 计算器",
+      "desc": "redis 内存占用粗算",
+      "link": "http://www.redis.cn/redis_memory/"
+    },
+    {
+      "icon": "https://api.iowen.cn/favicon/do.co.png",
+      "name": "nginx 配置模拟",
+      "desc": "nginx 粗模拟",
+      "link": "https://do.co/nginxconfig"
+    },
+    {
+      "icon": "https://github.com/favicon.ico",
+      "name": "Github",
+      "desc": "全球最大的程序员同志交友网站",
+      "link": "https://github.com/"
+    },
+    {
+      "icon": "http://mdresume.murphyyi.com/favicon.ico",
+      "name": "markdown 简历编写",
+      "desc": "极简主义简历编写方案，可以在线打印, 适合工程、计算机有条理性",
+      "link": "http://mdresume.murphyyi.com/"
+    },
+    {
+      "icon": "http://godoc.murphyyi.com/favicon.ico",
+      "name": "GoDoc",
+      "desc": "Golang 学习手册",
+      "link": "http://godoc.murphyyi.com/"
+    }
+  ]
+},
+  {
+    "title": "办公常用网址",
+    "name": "work",
+    "nav": [
+      {
+        "icon": "https://www.baidu.com/favicon.ico",
+        "name": "百度",
+        "desc": "百度一下，你都不知道",
+        "link": "https://www.baidu.com"
+      },
+      {
+        "icon": "https://www.processon.com/favicon.ico",
+        "name": "processon",
+        "desc": "绘图必备",
+        "link": "https://www.processon.com"
+      },
+       {
+        "icon": "https://music.murphyyi.com/favicon.ico",
+        "name": "墨菲网易云音乐",
+        "desc": "墨菲网易音乐",
+        "link": "https://music.murphyyi.com/"
+      },
+       {
+        "icon": "https://www.youtube.com/favicon.ico",
+        "name": "youtube",
+        "desc": "youtube",
+        "link": "https://www.youtube.com/"
+      },
+      {
+        "icon": "https://www.yuque.com/favicon.ico",
+        "name": "语雀",
+        "desc": "知识总结，就在此刻",
+        "link": "https://www.yuque.com"
+      },{
+        "icon": "https://www.toutiao.com/favicon.ico",
+        "name": "头条",
+        "desc": "天下之事，尽在你手",
+        "link": "https://www.toutiao.com/"
+      },
+      {
+        "icon": "https://www.aliyundrive.com/favicon.ico",
+        "name": "阿里云盘",
+        "desc": "海纳百川",
+        "link": "https://www.aliyundrive.com"
+      },
+      {
+        "icon": "https://api.iowen.cn/favicon/pan.murphyyi.com.png",
+        "name": "常用分享",
+        "desc": "这里拥有你需要常用的所有软件、方法、教程、书籍，涵盖windows macos ios等",
+        "link": "https://pan.murphyyi.com"
+      },
+      {
+        "icon": "https://api.iowen.cn/favicon/www.logoly.pro.png",
+        "name": "图表制作",
+        "desc": "制作属于你的icon",
+        "link": "https://www.logoly.pro/#/"
+      }
+    ]
+  },
+  {
+    "title": "大厂团队博客网站",
+    "name": "coder",
+    "nav": [
+      {
+        "icon": "https://tech.meituan.com/favicon.ico",
+        "name": "美团点评",
+        "desc": "美团点评技术站点",
+        "link": "https://tech.meituan.com/"
+      },
+      {
+        "icon": "https://www.zhihu.com/favicon.ico",
+        "name": "美团点评知乎",
+        "desc": "美团点评技术知乎站点",
+        "link": "https://www.zhihu.com/org/mei-tuan-dian-ping-ji-shu-tuan-dui/posts"
+      },
+      {
+        "icon": "https://www.zhihu.com/favicon.ico",
+        "name": "腾讯云知乎技术",
+        "desc": "腾讯大讲堂",
+        "link": "https://www.zhihu.com/org/teng-xun-yun-ji-zhu-she-qu/posts"
+      },
+      {
+        "icon": "https://www.zhihu.com/favicon.ico",
+        "name": "爱奇艺产品技术团队",
+        "desc": "爱奇艺产品技术团队",
+        "link": "https://www.zhihu.com/org/ai-qi-yi-ji-zhu-chan-pin-tuan-dui"
+      },
+      {
+        "icon": "https://www.sec-wiki.com/favicon.ico",
+        "name": "互联网安全SecWiki",
+        "desc": "互联网安全SecWiki",
+        "link": "https://www.sec-wiki.com/index.php"
+      },
+      {
+        "icon": "https://www.anquanke.com/favicon.ico",
+        "name": "安全客",
+        "desc": "安全客",
+        "link": "https://www.anquanke.com/"
+      },
+       {
+        "icon": "http://mysql.taobao.org/favicon.ico",
+        "name": "淘宝mysql月报",
+        "desc": "淘宝mysql月报",
+        "link": "http://mysql.taobao.org/monthly/"
+      }
+    ]
+  },
+   {
+    "title": "生活工具",
+    "name": "tools",
+    "nav": [
+      {
+        "icon": "https://zy84338719.github.io/favicon.ico",
+        "name": "WiFi 分享工具",
+        "desc": "WiFi 分享工具",
+        "link": "https://yi-nology.github.io/wifi-qr/"
+      },
+      {
+        "icon": "https://api.iowen.cn/favicon/www.teambition.com.png",
+        "name": "效率工具",
+        "desc": "效率工具",
+        "link": "https://www.teambition.com/"
+      },
+       {
+        "icon": "https://byoungd.gitbook.io/english-level-up-tips/favicon.ico",
+        "name": "英语学习",
+        "desc": "英语学习",
+        "link": "https://byoungd.gitbook.io/english-level-up-tips/"
+      }
+    ]
+  }
+]
+
+

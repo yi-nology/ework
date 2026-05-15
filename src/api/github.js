@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getLocalData } from './config'
+import { getLocalData, fetchAllNavData, fetchNacosConfig, fetchApolloConfig } from './config'
 import { loadRbSettings } from '@/common/js/cache'
 
 let service = axios.create();
@@ -15,22 +15,41 @@ service.interceptors.response.use((resp) => {
 });
 
 const ENABLE_RB = process.env.VUE_APP_ENABLE_RB !== 'false'
-const LOCAL_DATA_URL = process.env.VUE_APP_LOCAL_DATA_URL || 'https://ework-1251965636.cos.ap-beijing.myqcloud.com/web.json'
 
 export function GetWebData() {
-    if (!ENABLE_RB) {
-        return getLocalData(LOCAL_DATA_URL).then((data) => {
-            return { data: data }
-        })
-    }
     const settings = loadRbSettings()
-    if (settings.dataMode === 'remote') {
-        var fetchAllNavData = require('./config').fetchAllNavData
-        return fetchAllNavData(settings.baseUrl, settings.environment).then((data) => {
+    if (!ENABLE_RB) {
+        return getLocalData(settings.localDataUrl).then((data) => {
             return { data: data }
         })
     }
-    return getLocalData(LOCAL_DATA_URL).then((data) => {
+    if (settings.dataMode === 'remote') {
+        if (settings.configType === 'rainbow-bridge') {
+            return fetchAllNavData(settings.baseUrl, settings.environment, settings.skipSslVerify).then((data) => {
+                return { data: data }
+            })
+        } else if (settings.configType === 'nacos') {
+            return fetchNacosConfig(
+                settings.nacosServerAddr,
+                settings.nacosNamespace,
+                settings.nacosDataId,
+                settings.nacosGroup,
+                settings.skipSslVerify
+            ).then((data) => {
+                return { data: data }
+            })
+        } else if (settings.configType === 'apollo') {
+            return fetchApolloConfig(
+                settings.apolloMeta,
+                settings.apolloAppId,
+                settings.apolloNamespace,
+                settings.skipSslVerify
+            ).then((data) => {
+                return { data: data }
+            })
+        }
+    }
+    return getLocalData(settings.localDataUrl, settings.skipSslVerify).then((data) => {
         return { data: data }
     })
 }

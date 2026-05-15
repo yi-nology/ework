@@ -96,17 +96,16 @@ module.exports = {
         port: 8080,
         https: false,
         hotOnly: false,
-        // proxy: {
-        //  // 设置代理
-        //  // proxy all requests starting with /api to jsonplaceholder
-        //  'http://localhost:8080/': {
-        //      target: 'http://baidu.com:8080', //真实请求的目标地址
-        //      changeOrigin: true,
-        //      pathRewrite: {
-        //          '^http://localhost:8080/': ''
-        //      }
-        //  }
-        // },
+        proxy: {
+            '/rainbow-bridge': {
+                target: 'https://rainbow.me',
+                changeOrigin: true,
+                secure: false,
+                headers: {
+                    'Referer': 'https://rainbow.me'
+                }
+            }
+        },
         // eslint-disable-next-line no-unused-vars
         before: (app) => {
         }

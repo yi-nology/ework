@@ -93,8 +93,18 @@ const RB_SETTINGS_KEY = '__rb_settings__'
 
 const RB_DEFAULTS = {
     dataMode: process.env.VUE_APP_DATA_MODE || 'local',
-    baseUrl: process.env.VUE_APP_RB_BASE_URL || 'http://localhost:8080/rainbow-bridge',
-    environment: process.env.VUE_APP_RB_ENVIRONMENT || 'navi'
+    configType: process.env.VUE_APP_CONFIG_TYPE || 'rainbow-bridge',
+    baseUrl: process.env.VUE_APP_RB_BASE_URL || '/rainbow-bridge',
+    environment: process.env.VUE_APP_RB_ENVIRONMENT || 'navi',
+    localDataUrl: process.env.VUE_APP_LOCAL_DATA_URL || 'https://ework-1251965636.cos.ap-beijing.myqcloud.com/web.json',
+    nacosServerAddr: process.env.VUE_APP_NACOS_SERVER_ADDR || 'http://localhost:8848/nacos',
+    nacosNamespace: process.env.VUE_APP_NACOS_NAMESPACE || 'public',
+    nacosDataId: process.env.VUE_APP_NACOS_DATA_ID || 'ework-nav.json',
+    nacosGroup: process.env.VUE_APP_NACOS_GROUP || 'DEFAULT_GROUP',
+    apolloMeta: process.env.VUE_APP_APOLLO_META || 'http://localhost:8080',
+    apolloAppId: process.env.VUE_APP_APOLLO_APP_ID || 'ework-nav',
+    apolloNamespace: process.env.VUE_APP_APOLLO_NAMESPACE || 'application',
+    skipSslVerify: process.env.VUE_APP_SKIP_SSL_VERIFY === 'true'
 }
 
 export function loadRbSettings () {
@@ -102,8 +112,18 @@ export function loadRbSettings () {
     if (!value) return { ...RB_DEFAULTS }
     return {
         dataMode: value.dataMode || RB_DEFAULTS.dataMode,
+        configType: value.configType || RB_DEFAULTS.configType,
         baseUrl: value.baseUrl || RB_DEFAULTS.baseUrl,
-        environment: value.environment || RB_DEFAULTS.environment
+        environment: value.environment || RB_DEFAULTS.environment,
+        localDataUrl: value.localDataUrl || RB_DEFAULTS.localDataUrl,
+        nacosServerAddr: value.nacosServerAddr || RB_DEFAULTS.nacosServerAddr,
+        nacosNamespace: value.nacosNamespace || RB_DEFAULTS.nacosNamespace,
+        nacosDataId: value.nacosDataId || RB_DEFAULTS.nacosDataId,
+        nacosGroup: value.nacosGroup || RB_DEFAULTS.nacosGroup,
+        apolloMeta: value.apolloMeta || RB_DEFAULTS.apolloMeta,
+        apolloAppId: value.apolloAppId || RB_DEFAULTS.apolloAppId,
+        apolloNamespace: value.apolloNamespace || RB_DEFAULTS.apolloNamespace,
+        skipSslVerify: value.skipSslVerify !== undefined ? value.skipSslVerify : RB_DEFAULTS.skipSslVerify
     }
 }
 
