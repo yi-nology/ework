@@ -247,12 +247,15 @@ export default {
 .link-desc {
     font-size: 11px;
     color: var(--foreground-muted);
-    white-space: nowrap;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
-    line-height: 1.2;
-    height: 13px;
+    line-height: 1.3;
+    min-height: 14px;
+    max-height: 28px;
     transition: color 0.2s ease;
 }
 
