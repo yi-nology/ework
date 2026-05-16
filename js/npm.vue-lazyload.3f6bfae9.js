@@ -4,26 +4,113 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export Lazy */
+/* unused harmony export LazyComponent */
+/* unused harmony export LazyContainer */
+/* unused harmony export LazyImage */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return index; });
 /*!
- * Vue-Lazyload.js v1.3.3
- * (c) 2019 Awe <hilongjw@gmail.com>
+ * Vue-Lazyload.js v1.3.5
+ * (c) 2023 Awe <hilongjw@gmail.com>
  * Released under the MIT License.
  */
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var assignSymbols$1 = createCommonjsModule(function (module) {
+
+  var toString = Object.prototype.toString;
+  var isEnumerable = Object.prototype.propertyIsEnumerable;
+  var getSymbols = Object.getOwnPropertySymbols;
+
+  module.exports = function (target) {
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    if (!isObject(target)) {
+      throw new TypeError('expected the first argument to be an object');
+    }
+
+    if (args.length === 0 || typeof Symbol !== 'function' || typeof getSymbols !== 'function') {
+      return target;
+    }
+
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = args[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var arg = _step.value;
+
+        var names = getSymbols(arg);
+
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
+
+        try {
+          for (var _iterator2 = names[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var key = _step2.value;
+
+            if (isEnumerable.call(arg, key)) {
+              target[key] = arg[key];
+            }
+          }
+        } catch (err) {
+          _didIteratorError2 = true;
+          _iteratorError2 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+              _iterator2.return();
+            }
+          } finally {
+            if (_didIteratorError2) {
+              throw _iteratorError2;
+            }
+          }
+        }
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
+    return target;
+  };
+
+  function isObject(val) {
+    return typeof val === 'function' || toString.call(val) === '[object Object]' || Array.isArray(val);
+  }
+});
+
+var assignSymbols$2 = /*#__PURE__*/Object.freeze({
+	__proto__: null,
+	'default': assignSymbols$1,
+	__moduleExports: assignSymbols$1
+});
+
+var assignSymbols = ( assignSymbols$2 && assignSymbols$1 ) || assignSymbols$2;
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
   return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
 };
-
-
-
-
-
-
-
-
-
-
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -49,270 +136,72 @@ var createClass = function () {
   };
 }();
 
-/*!
- * is-primitive <https://github.com/jonschlinkert/is-primitive>
- *
- * Copyright (c) 2014-2015, Jon Schlinkert.
- * Licensed under the MIT License.
- */
+var assignDeep = createCommonjsModule(function (module) {
 
-// see http://jsperf.com/testing-value-is-primitive/7
+  var toString = Object.prototype.toString;
 
-var isPrimitive = function isPrimitive(value) {
-  return value == null || typeof value !== 'function' && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) !== 'object';
-};
+  var isValidKey = function isValidKey(key) {
+    return key !== '__proto__' && key !== 'constructor' && key !== 'prototype';
+  };
 
-/*!
- * assign-symbols <https://github.com/jonschlinkert/assign-symbols>
- *
- * Copyright (c) 2015, Jon Schlinkert.
- * Licensed under the MIT License.
- */
-
-var assignSymbols = function assignSymbols(receiver, objects) {
-  if (receiver === null || typeof receiver === 'undefined') {
-    throw new TypeError('expected first argument to be an object.');
-  }
-
-  if (typeof objects === 'undefined' || typeof Symbol === 'undefined') {
-    return receiver;
-  }
-
-  if (typeof Object.getOwnPropertySymbols !== 'function') {
-    return receiver;
-  }
-
-  var isEnumerable = Object.prototype.propertyIsEnumerable;
-  var target = Object(receiver);
-  var len = arguments.length,
-      i = 0;
-
-  while (++i < len) {
-    var provider = Object(arguments[i]);
-    var names = Object.getOwnPropertySymbols(provider);
-
-    for (var j = 0; j < names.length; j++) {
-      var key = names[j];
-
-      if (isEnumerable.call(provider, key)) {
-        target[key] = provider[key];
-      }
+  var assign = module.exports = function (target) {
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
     }
-  }
-  return target;
-};
 
-var toString = Object.prototype.toString;
+    var i = 0;
+    if (isPrimitive(target)) target = args[i++];
+    if (!target) target = {};
+    for (; i < args.length; i++) {
+      if (isObject(args[i])) {
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
 
-/**
- * Get the native `typeof` a value.
- *
- * @param  {*} `val`
- * @return {*} Native javascript type
- */
+        try {
+          for (var _iterator = Object.keys(args[i])[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var key = _step.value;
 
-var kindOf = function kindOf(val) {
-  var type = typeof val === 'undefined' ? 'undefined' : _typeof(val);
-
-  // primitivies
-  if (type === 'undefined') {
-    return 'undefined';
-  }
-  if (val === null) {
-    return 'null';
-  }
-  if (val === true || val === false || val instanceof Boolean) {
-    return 'boolean';
-  }
-  if (type === 'string' || val instanceof String) {
-    return 'string';
-  }
-  if (type === 'number' || val instanceof Number) {
-    return 'number';
-  }
-
-  // functions
-  if (type === 'function' || val instanceof Function) {
-    if (typeof val.constructor.name !== 'undefined' && val.constructor.name.slice(0, 9) === 'Generator') {
-      return 'generatorfunction';
-    }
-    return 'function';
-  }
-
-  // array
-  if (typeof Array.isArray !== 'undefined' && Array.isArray(val)) {
-    return 'array';
-  }
-
-  // check for instances of RegExp and Date before calling `toString`
-  if (val instanceof RegExp) {
-    return 'regexp';
-  }
-  if (val instanceof Date) {
-    return 'date';
-  }
-
-  // other objects
-  type = toString.call(val);
-
-  if (type === '[object RegExp]') {
-    return 'regexp';
-  }
-  if (type === '[object Date]') {
-    return 'date';
-  }
-  if (type === '[object Arguments]') {
-    return 'arguments';
-  }
-  if (type === '[object Error]') {
-    return 'error';
-  }
-  if (type === '[object Promise]') {
-    return 'promise';
-  }
-
-  // buffer
-  if (isBuffer(val)) {
-    return 'buffer';
-  }
-
-  // es6: Map, WeakMap, Set, WeakSet
-  if (type === '[object Set]') {
-    return 'set';
-  }
-  if (type === '[object WeakSet]') {
-    return 'weakset';
-  }
-  if (type === '[object Map]') {
-    return 'map';
-  }
-  if (type === '[object WeakMap]') {
-    return 'weakmap';
-  }
-  if (type === '[object Symbol]') {
-    return 'symbol';
-  }
-
-  if (type === '[object Map Iterator]') {
-    return 'mapiterator';
-  }
-  if (type === '[object Set Iterator]') {
-    return 'setiterator';
-  }
-  if (type === '[object String Iterator]') {
-    return 'stringiterator';
-  }
-  if (type === '[object Array Iterator]') {
-    return 'arrayiterator';
-  }
-
-  // typed arrays
-  if (type === '[object Int8Array]') {
-    return 'int8array';
-  }
-  if (type === '[object Uint8Array]') {
-    return 'uint8array';
-  }
-  if (type === '[object Uint8ClampedArray]') {
-    return 'uint8clampedarray';
-  }
-  if (type === '[object Int16Array]') {
-    return 'int16array';
-  }
-  if (type === '[object Uint16Array]') {
-    return 'uint16array';
-  }
-  if (type === '[object Int32Array]') {
-    return 'int32array';
-  }
-  if (type === '[object Uint32Array]') {
-    return 'uint32array';
-  }
-  if (type === '[object Float32Array]') {
-    return 'float32array';
-  }
-  if (type === '[object Float64Array]') {
-    return 'float64array';
-  }
-
-  // must be a plain object
-  return 'object';
-};
-
-/**
- * If you need to support Safari 5-7 (8-10 yr-old browser),
- * take a look at https://github.com/feross/is-buffer
- */
-
-function isBuffer(val) {
-  return val.constructor && typeof val.constructor.isBuffer === 'function' && val.constructor.isBuffer(val);
-}
-
-function assign(target /*, objects*/) {
-  target = target || {};
-  var len = arguments.length,
-      i = 0;
-  if (len === 1) {
-    return target;
-  }
-  while (++i < len) {
-    var val = arguments[i];
-    if (isPrimitive(target)) {
-      target = val;
-    }
-    if (isObject$1(val)) {
-      extend(target, val);
-    }
-  }
-  return target;
-}
-
-/**
- * Shallow extend
- */
-
-function extend(target, obj) {
-  assignSymbols(target, obj);
-
-  for (var key in obj) {
-    if (key !== '__proto__' && hasOwn(obj, key)) {
-      var val = obj[key];
-      if (isObject$1(val)) {
-        if (kindOf(target[key]) === 'undefined' && kindOf(val) === 'function') {
-          target[key] = val;
+            if (isValidKey(key)) {
+              if (isObject(target[key]) && isObject(args[i][key])) {
+                assign(target[key], args[i][key]);
+              } else {
+                target[key] = args[i][key];
+              }
+            }
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
         }
-        target[key] = assign(target[key] || {}, val);
-      } else {
-        target[key] = val;
+
+        assignSymbols(target, args[i]);
       }
     }
+    return target;
+  };
+
+  function isObject(val) {
+    return typeof val === 'function' || toString.call(val) === '[object Object]';
   }
-  return target;
-}
 
-/**
- * Returns true if the object is a plain object or a function.
- */
+  function isPrimitive(val) {
+    return (typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object' ? val === null : typeof val !== 'function';
+  }
+});
 
-function isObject$1(obj) {
-  return kindOf(obj) === 'object' || kindOf(obj) === 'function';
-}
+var inBrowser = typeof window !== 'undefined' && window !== null;
 
-/**
- * Returns true if the given `key` is an own property of `obj`.
- */
-
-function hasOwn(obj, key) {
-  return Object.prototype.hasOwnProperty.call(obj, key);
-}
-
-/**
- * Expose `assign`
- */
-
-var assignDeep = assign;
-
-var inBrowser = typeof window !== 'undefined';
 var hasIntersectionObserver = checkIntersectionObserver();
 
 function checkIntersectionObserver() {
@@ -321,7 +210,7 @@ function checkIntersectionObserver() {
     // See: https://github.com/w3c/IntersectionObserver/issues/211
     if (!('isIntersecting' in window.IntersectionObserverEntry.prototype)) {
       Object.defineProperty(window.IntersectionObserverEntry.prototype, 'isIntersecting', {
-        get: function get$$1() {
+        get: function get() {
           return this.intersectionRatio > 0;
         }
       });
@@ -335,9 +224,10 @@ var modeType = {
   event: 'event',
   observer: 'observer'
 
-  // CustomEvent polyfill
+  // CustomEvent polyfill for IE
 };var CustomEvent = function () {
   if (!inBrowser) return;
+  // not IE
   if (typeof window.CustomEvent === 'function') return window.CustomEvent;
   function CustomEvent(event, params) {
     params = params || { bubbles: false, cancelable: false, detail: undefined };
@@ -449,16 +339,13 @@ function supportWebp() {
   if (!inBrowser) return false;
 
   var support = true;
-  var d = document;
 
   try {
-    var el = d.createElement('object');
-    el.type = 'image/webp';
-    el.style.visibility = 'hidden';
-    el.innerHTML = '!';
-    d.body.appendChild(el);
-    support = !el.offsetWidth;
-    d.body.removeChild(el);
+    var elem = document.createElement('canvas');
+
+    if (elem.getContext && elem.getContext('2d')) {
+      support = elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+    }
   } catch (err) {
     support = false;
   }
@@ -468,8 +355,11 @@ function supportWebp() {
 
 function throttle(action, delay) {
   var timeout = null;
+  var movement = null;
   var lastRun = 0;
+  var needRun = false;
   return function () {
+    needRun = true;
     if (timeout) {
       return;
     }
@@ -486,6 +376,10 @@ function throttle(action, delay) {
     } else {
       timeout = setTimeout(runCallback, delay);
     }
+    if (needRun) {
+      clearTimeout(movement);
+      movement = setTimeout(runCallback, 2 * delay);
+    }
   };
 }
 
@@ -494,7 +388,7 @@ function testSupportsPassive() {
   var support = false;
   try {
     var opts = Object.defineProperty({}, 'passive', {
-      get: function get$$1() {
+      get: function get() {
         support = true;
       }
     });
@@ -533,6 +427,9 @@ var loadImageAsync = function loadImageAsync(item, resolve, reject) {
   }
 
   image.src = item.src;
+  if (item.cors) {
+    image.crossOrigin = item.cors;
+  }
 
   image.onload = function () {
     resolve({
@@ -662,6 +559,7 @@ var ReactiveListener = function () {
         bindType = _ref.bindType,
         $parent = _ref.$parent,
         options = _ref.options,
+        cors = _ref.cors,
         elRenderer = _ref.elRenderer,
         imageCache = _ref.imageCache;
     classCallCheck(this, ReactiveListener);
@@ -672,6 +570,7 @@ var ReactiveListener = function () {
     this.loading = loading;
     this.bindType = bindType;
     this.attempt = 0;
+    this.cors = cors;
 
     this.naturalHeight = 0;
     this.naturalWidth = 0;
@@ -804,7 +703,8 @@ var ReactiveListener = function () {
 
       this.state.loading = true;
       loadImageAsync({
-        src: this.loading
+        src: this.loading,
+        cors: this.cors
       }, function (data) {
         _this2.render('loading', false);
         _this2.state.loading = false;
@@ -849,7 +749,8 @@ var ReactiveListener = function () {
         _this3.record('loadStart');
 
         loadImageAsync({
-          src: _this3.src
+          src: _this3.src,
+          cors: _this3.cors
         }, function (data) {
           _this3.naturalHeight = data.naturalHeight;
           _this3.naturalWidth = data.naturalWidth;
@@ -933,7 +834,7 @@ var DEFAULT_OBSERVER_OPTIONS = {
   threshold: 0
 };
 
-var Lazy = function (Vue) {
+function Lazy(Vue) {
   return function () {
     function Lazy(_ref) {
       var preLoad = _ref.preLoad,
@@ -946,15 +847,15 @@ var Lazy = function (Vue) {
           _ref$silent = _ref.silent,
           silent = _ref$silent === undefined ? true : _ref$silent,
           scale = _ref.scale,
-          listenEvents = _ref.listenEvents,
-          hasbind = _ref.hasbind,
-          filter = _ref.filter,
+          listenEvents = _ref.listenEvents;
+          _ref.hasbind;
+          var filter = _ref.filter,
           adapter = _ref.adapter,
           observer = _ref.observer,
           observerOptions = _ref.observerOptions;
       classCallCheck(this, Lazy);
 
-      this.version = '1.3.3';
+      this.version = '"1.3.5"';
       this.mode = modeType.event;
       this.ListenerQueue = [];
       this.TargetIndex = 0;
@@ -1058,7 +959,8 @@ var Lazy = function (Vue) {
         var _valueFormatter2 = this._valueFormatter(binding.value),
             src = _valueFormatter2.src,
             loading = _valueFormatter2.loading,
-            error = _valueFormatter2.error;
+            error = _valueFormatter2.error,
+            cors = _valueFormatter2.cors;
 
         Vue.nextTick(function () {
           src = getBestSelectionFromSrcset(el, _this.options.scale) || src;
@@ -1084,6 +986,7 @@ var Lazy = function (Vue) {
             loading: loading,
             error: error,
             src: src,
+            cors: cors,
             elRenderer: _this._elRenderer.bind(_this),
             options: _this.options,
             imageCache: _this._imageCache
@@ -1152,7 +1055,7 @@ var Lazy = function (Vue) {
 
     }, {
       key: 'remove',
-      value: function remove$$1(el) {
+      value: function remove$1(el) {
         if (!el) return;
         this._observer && this._observer.unobserve(el);
         var existItem = find(this.ListenerQueue, function (item) {
@@ -1471,9 +1374,44 @@ var Lazy = function (Vue) {
     }]);
     return Lazy;
   }();
+}
+
+Lazy.install = function (Vue) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  var LazyClass = Lazy(Vue);
+  var lazy = new LazyClass(options);
+
+  var isVue2 = Vue.version.split('.')[0] === '2';
+  if (isVue2) {
+    Vue.directive('lazy', {
+      bind: lazy.add.bind(lazy),
+      update: lazy.update.bind(lazy),
+      componentUpdated: lazy.lazyLoadHandler.bind(lazy),
+      unbind: lazy.remove.bind(lazy)
+    });
+  } else {
+    Vue.directive('lazy', {
+      bind: lazy.lazyLoadHandler.bind(lazy),
+      update: function update(newValue, oldValue) {
+        assignDeep(this.vm.$refs, this.vm.$els);
+        lazy.add(this.el, {
+          modifiers: this.modifiers || {},
+          arg: this.arg,
+          value: newValue,
+          oldValue: oldValue
+        }, {
+          context: this.vm
+        });
+      },
+      unbind: function unbind() {
+        lazy.remove(this.el);
+      }
+    });
+  }
 };
 
-var LazyComponent = (function (lazy) {
+var LazyComponent = function LazyComponent(lazy) {
   return {
     props: {
       tag: {
@@ -1482,10 +1420,7 @@ var LazyComponent = (function (lazy) {
       }
     },
     render: function render(h) {
-      if (this.show === false) {
-        return h(this.tag);
-      }
-      return h(this.tag, null, this.$slots.default);
+      return h(this.tag, null, this.show ? this.$slots.default : null);
     },
     data: function data() {
       return {
@@ -1524,7 +1459,15 @@ var LazyComponent = (function (lazy) {
       }
     }
   };
-});
+};
+
+LazyComponent.install = function (Vue) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  var LazyClass = Lazy(Vue);
+  var lazy = new LazyClass(options);
+  Vue.component('lazy-component', LazyComponent(lazy));
+};
 
 var LazyContainerMananger = function () {
   function LazyContainerMananger(_ref) {
@@ -1539,7 +1482,7 @@ var LazyContainerMananger = function () {
   createClass(LazyContainerMananger, [{
     key: 'bind',
     value: function bind(el, binding, vnode) {
-      var container = new LazyContainer$1({ el: el, binding: binding, vnode: vnode, lazy: this.lazy });
+      var container = new LazyContainer({ el: el, binding: binding, vnode: vnode, lazy: this.lazy });
       this._queue.push(container);
     }
   }, {
@@ -1565,11 +1508,12 @@ var LazyContainerMananger = function () {
   return LazyContainerMananger;
 }();
 
+
 var defaultOptions = {
   selector: 'img'
 };
 
-var LazyContainer$1 = function () {
+var LazyContainer = function () {
   function LazyContainer(_ref2) {
     var el = _ref2.el,
         binding = _ref2.binding,
@@ -1632,7 +1576,40 @@ var LazyContainer$1 = function () {
   return LazyContainer;
 }();
 
-var LazyImage = (function (lazyManager) {
+LazyContainer.install = function (Vue) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  var LazyClass = Lazy(Vue);
+  var lazy = new LazyClass(options);
+  var lazyContainer = new LazyContainer({ lazy: lazy });
+
+  var isVue2 = Vue.version.split('.')[0] === '2';
+  if (isVue2) {
+    Vue.directive('lazy-container', {
+      bind: lazyContainer.bind.bind(lazyContainer),
+      componentUpdated: lazyContainer.update.bind(lazyContainer),
+      unbind: lazyContainer.unbind.bind(lazyContainer)
+    });
+  } else {
+    Vue.directive('lazy-container', {
+      update: function update(newValue, oldValue) {
+        lazyContainer.update(this.el, {
+          modifiers: this.modifiers || {},
+          arg: this.arg,
+          value: newValue,
+          oldValue: oldValue
+        }, {
+          context: this.vm
+        });
+      },
+      unbind: function unbind() {
+        lazyContainer.unbind(this.el);
+      }
+    });
+  }
+};
+
+var LazyImage = function LazyImage(lazyManager) {
   return {
     props: {
       src: [String, Object],
@@ -1731,7 +1708,15 @@ var LazyImage = (function (lazyManager) {
       }
     }
   };
-});
+};
+
+LazyImage.install = function (Vue) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  var LazyClass = Lazy(Vue);
+  var lazy = new LazyClass(options);
+  Vue.component('lazy-image', LazyImage(lazy));
+};
 
 var index = {
   /*
@@ -1808,7 +1793,7 @@ var index = {
   }
 };
 
-/* harmony default export */ __webpack_exports__["a"] = (index);
+
 
 
 /***/ })
