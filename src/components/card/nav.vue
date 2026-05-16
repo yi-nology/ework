@@ -254,8 +254,7 @@ export default {
     text-overflow: ellipsis;
     max-width: 100%;
     line-height: 1.3;
-    min-height: 14px;
-    max-height: 28px;
+    height: 28px;
     transition: color 0.2s ease;
 }
 
