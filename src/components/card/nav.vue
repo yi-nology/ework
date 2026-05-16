@@ -229,6 +229,7 @@ export default {
     flex-direction: column;
     gap: 2px;
     min-width: 0;
+    flex: 1;
     overflow: hidden;
 }
 
@@ -239,6 +240,7 @@ export default {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 100%;
     transition: color 0.2s ease, font-weight 0.2s ease;
 }
 
@@ -248,6 +250,9 @@ export default {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 100%;
+    line-height: 1.2;
+    height: 13px;
     transition: color 0.2s ease;
 }
 
