@@ -71,13 +71,13 @@
     {
       "icon": "https://github.com/favicon.ico",
       "name": "Github",
-      "desc": "全球最大的程序员同志交友网站",
+      "desc": "代码托管与开源社区",
       "link": "https://github.com/"
     },
     {
       "icon": "http://mdresume.murphyyi.com/favicon.ico",
-      "name": "markdown 简历编写",
-      "desc": "极简主义简历编写方案，可以在线打印, 适合工程、计算机有条理性",
+      "name": "Markdown 简历",
+      "desc": "极简简历编写，支持在线打印",
       "link": "http://mdresume.murphyyi.com/"
     },
     {
@@ -136,7 +136,7 @@
       {
         "icon": "https://api.iowen.cn/favicon/pan.murphyyi.com.png",
         "name": "常用分享",
-        "desc": "这里拥有你需要常用的所有软件、方法、教程、书籍，涵盖windows macos ios等",
+        "desc": "软件、教程、工具资源分享",
         "link": "https://pan.murphyyi.com"
       },
       {

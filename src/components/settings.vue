@@ -27,7 +27,7 @@
                     </label>
                     <div class="config-type-btns">
                         <div class="config-type-btn" :class="{ active: form.configType === 'rainbow-bridge' }" @click="form.configType = 'rainbow-bridge'">
-                            <span>虹桥计划</span>
+                            <span>配置中心</span>
                         </div>
                         <div class="config-type-btn" :class="{ active: form.configType === 'nacos' }" @click="form.configType = 'nacos'">
                             <span>Nacos</span>
@@ -43,7 +43,7 @@
                         <span>API 地址</span>
                         <span class="form-hint">默认: {{ defaults.baseUrl }}</span>
                     </label>
-                    <input class="form-input" type="text" v-model="form.baseUrl" placeholder="输入虹桥计划 API 地址"/>
+                    <input class="form-input" type="text" v-model="form.baseUrl" placeholder="输入配置中心 API 地址"/>
                 </div>
 
                 <div class="form-section" v-show="form.dataMode === 'remote' && form.configType === 'rainbow-bridge'">

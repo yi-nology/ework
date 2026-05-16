@@ -22,7 +22,7 @@
                 <div slot="trigger"></div>
                 <div class="settings-entry" v-if="enableRb" @click="showSettings = true">
                     <Icon type="ios-settings-outline"/>
-                    <span class="settings-label">虹桥计划 API</span>
+                    <span class="settings-label">配置中心</span>
                     <span class="settings-tag" :class="{ 'settings-tag-remote': currentDataMode === 'remote' }">{{ currentDataMode }}</span>
                 </div>
             </Sider>
