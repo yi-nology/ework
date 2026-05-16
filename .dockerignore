@@ -4,6 +4,7 @@ dist
 .gitignore
 *.md
 .DS_Store
+._*
 npm-debug.log
 yarn-error.log
 .vscode
@@ -11,3 +12,8 @@ yarn-error.log
 *.log
 tmp/
 temp/
+design/
+.github/
+GITHUB_ACTIONS.md
+DOCKER.md
+docker-compose*.yml
