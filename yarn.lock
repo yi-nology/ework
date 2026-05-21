@@ -5615,10 +5615,10 @@ js-calendar@^1.2.3:
   resolved "https://registry.npmmirror.com/js-calendar/-/js-calendar-1.2.3.tgz#a583b0644b4e695ba394f344d103dbcc7a7a7d3e"
   integrity sha512-dAA1/Zbp4+c5E+ARCVTIuKepXsNLzSYfzvOimiYD4S5eeP9QuplSHLcdhfqFSwyM1o1u6ku6RRRCyaZ0YAjiBw==
 
-js-cookie@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.npmmirror.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
-  integrity sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
+js-cookie@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-3.0.6.tgz#ee61fd31363d8e14acf9849a38e33b7c079b5447"
+  integrity sha512-mYhz0Og/Wv8bZJcBC6rRzYG+rYf8DyQSK3rcUbuGHQIgSsX6uynAIVoaPgqf0udH2AGS953hGFy3w6on1rJzMw==
 
 js-message@1.0.7:
   version "1.0.7"
