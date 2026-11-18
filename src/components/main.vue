@@ -5,19 +5,24 @@
                 <div class="logo-con">
                     <a href="./"><img src="logo.png" key="max-logo"/><span class="logo-text">Work</span></a>
                 </div>
-                <Menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses" @on-select="jumpAnchor">
-                    <menu-item name="我的收藏">
-                        <Icon type="ios-heart"/>
-                        <span>我的收藏</span>
-                    </menu-item>
-                    <menu-item name="常用网址">
-                        <Icon type="ios-navigate"></Icon>
-                        <span>常用网址</span>
-                    </menu-item>
-                    <menu-item :name="item.title" v-for="(item,index) in data" :key="index">
-                        <Icon type="ios-search"></Icon>
-                        <span>{{ item.title }}</span>
-                    </menu-item>
+                <Menu :active-name="activeSection" theme="dark" width="auto" :class="menuitemClasses" @on-select="jumpAnchor">
+                    <Menu-group title="个人">
+                        <menu-item name="我的收藏">
+                            <Icon type="ios-heart"/>
+                            <span class="menu-label">我的收藏</span>
+                        </menu-item>
+                        <menu-item name="常用网址">
+                            <Icon type="ios-time"/>
+                            <span class="menu-label">常用网址</span>
+                        </menu-item>
+                    </Menu-group>
+                    <Menu-group title="团队分类" v-if="data.length">
+                        <menu-item :name="item.title" v-for="(item,index) in data" :key="index">
+                            <span class="menu-badge" :style="{ background: badgeColor(index) }">{{ (item.title || '?')[0] }}</span>
+                            <span class="menu-label">{{ item.title }}</span>
+                            <span class="menu-count">{{ item.nav.length }}</span>
+                        </menu-item>
+                    </Menu-group>
                 </Menu>
                 <div slot="trigger"></div>
                 <div class="settings-entry" v-if="enableRb" @click="showSettings = true">
@@ -28,18 +33,50 @@
             </Sider>
             <Layout class="layout-content-area">
                 <Header class="layout-header-bar">
-                    <span class="welcome-text">欢迎回来 👋</span>
+                    <div class="welcome-wrap">
+                        <span class="welcome-text">{{ greeting }} 👋</span>
+                        <span class="stats-chip" v-if="totalLinks">{{ data.length }} 个分类 · {{ totalLinks }} 个站点</span>
+                    </div>
                     <Tag v-if="enableRb && currentDataMode === 'remote'" color="blue" class="data-mode-tag">{{ rbPipeline }}</Tag>
                     <div class="header-spacer"></div>
+                    <transition name="fade">
+                        <span class="search-result-chip" v-if="searchStatus">找到 {{ searchNum }} 个</span>
+                    </transition>
                     <div class="search-box">
                         <Icon type="ios-search" class="search-icon"/>
-                        <input v-model="search" class="search-input" placeholder="搜索网址..." @keyup.enter="searchData"/>
+                        <input v-model="search" class="search-input" placeholder="搜索名称 / 链接 / 描述..." @input="onSearchInput" @keyup.enter="searchData"/>
+                        <span class="search-clear" v-show="search" @click="resetSearch">
+                            <Icon type="ios-close-circle"/>
+                        </span>
                     </div>
-                    <Button class="search-btn" @click="searchData">搜索</Button>
-                    <Button class="reset-btn" @click="resetSearch" v-show="searchStatus">重置</Button>
                 </Header>
-                <Content class="layout-scroll-area">
-                    <NavSub :data="data" :spinShow="spinShow"></NavSub>
+                <Content class="layout-scroll-area" ref="scrollArea" @scroll.native="onContentScroll">
+                    <div class="state-block" v-if="loadError">
+                        <Icon type="ios-cloud-off-outline" class="state-icon"/>
+                        <p class="state-title">数据加载失败</p>
+                        <p class="state-hint">请检查配置中心连接后重试</p>
+                        <Button type="primary" @click="retryLoad">重新加载</Button>
+                    </div>
+                    <div class="skeleton-area" v-else-if="spinShow && !totalLinks">
+                        <div class="skeleton-card" v-for="i in 2" :key="i">
+                            <div class="sk-row sk-title shimmer"></div>
+                            <div class="sk-grid">
+                                <div class="sk-item shimmer" v-for="j in 8" :key="j"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="state-block" v-else-if="searchStatus && searchNum === 0">
+                        <Icon type="ios-search" class="state-icon"/>
+                        <p class="state-title">没有找到与「{{ search }}」相关的站点</p>
+                        <p class="state-hint">换个关键词试试，或清空搜索</p>
+                        <Button @click="resetSearch">清空搜索</Button>
+                    </div>
+                    <div class="state-block" v-else-if="!spinShow && !totalLinks">
+                        <Icon type="ios-archive-outline" class="state-icon"/>
+                        <p class="state-title">暂无导航数据</p>
+                        <p class="state-hint">请到配置中心检查各渠道发布状态</p>
+                    </div>
+                    <NavSub v-else :data="data" :spinShow="spinShow"></NavSub>
                 </Content>
                 <Footer class="layout-footer-center">版权 © 2014-2026 MurphyYi · <a
                         href="https://github.com/yi-nology/ework" target="_blank">GitHub (项目地址)</a></Footer>
@@ -52,6 +89,7 @@
 <script>
     import NavSub from '@/components/card/sub'
     import {GetWebData} from "@/api/github"
+    import {colorForIndex} from '@/common/js/palette'
     export default {
         data() {
             const enableRb = process.env.VUE_APP_ENABLE_RB !== 'false'
@@ -67,10 +105,13 @@
                 isCollapsed: false,
                 search: '',
                 searchStatus: false,
-                data: {},
-                sourceData: '',
-                serarchNum: 0,
+                searchNum: 0,
+                data: [],
+                sourceData: [],
                 spinShow: false,
+                loadError: false,
+                activeSection: '',
+                spyLock: false,
                 showSettings: false,
                 enableRb: enableRb,
                 currentDataMode: currentDataMode,
@@ -78,6 +119,17 @@
             }
         },
         computed: {
+            greeting() {
+                const h = new Date().getHours()
+                if (h < 6) return '夜深了'
+                if (h < 12) return '早上好'
+                if (h < 14) return '中午好'
+                if (h < 18) return '下午好'
+                return '晚上好'
+            },
+            totalLinks() {
+                return (this.data || []).reduce((s, c) => s + (c.nav || []).length, 0)
+            },
             menuitemClasses: function () {
                 return [
                     'menu-item',
@@ -86,12 +138,16 @@
             },
         },
         methods: {
+            badgeColor(index) {
+                return colorForIndex(index)
+            },
             githubWebData(){
               this.spinShow = true
+              this.loadError = false
               GetWebData().then((data)=>{
-                this.data=data.data
+                this.data = data.data || []
               }).catch(() => {
-                this.$Message.error('数据加载失败，请检查配置')
+                this.loadError = true
               }).finally(() => {
                 this.spinShow = false
               })
@@ -100,48 +156,76 @@
                 if (document.documentElement.clientWidth <= 768) {
                     this.isCollapsed = true
                 }
-                document.querySelector('#' + name).scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+                const target = document.getElementById(name)
+                if (target && target.offsetParent !== null) {
+                    this.activeSection = name
+                    this.spyLock = true
+                    setTimeout(() => { this.spyLock = false }, 1000)
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                    return
+                }
+                // 目标区块不可见（收藏/常用为空或被搜索过滤）时给出提示
+                if (name === '我的收藏') {
+                    this.$Message.info('还没有收藏，鼠标悬浮卡片可添加')
+                } else if (name === '常用网址') {
+                    this.$Message.info('打开的链接会自动出现在这里')
+                } else {
+                    this.$Message.info('该分类暂无站点')
+                }
+            },
+            onContentScroll() {
+                if (this.spyLock) return
+                const wrap = this.$refs.scrollArea
+                if (!wrap || !wrap.$el) return
+                const wrapEl = wrap.$el
+                const sections = wrapEl.querySelectorAll('.card-section')
+                let current = ''
+                sections.forEach(s => {
+                    if (s.offsetParent === null) return
+                    const top = s.getBoundingClientRect().top - wrapEl.getBoundingClientRect().top
+                    if (top <= 96) current = s.id
                 })
+                if (current && current !== this.activeSection) this.activeSection = current
+            },
+            onSearchInput() {
+                clearTimeout(this.searchTimer)
+                this.searchTimer = setTimeout(() => {
+                    this.searchData()
+                }, 300)
             },
             searchData() {
-                if (typeof this.search === 'undefined' || this.search === null || this.search === '') {
-                    this.$Message.error('输入内容呀！')
-                    return true
+                // 每次都从 sourceData 全量重新过滤，避免在上一次结果上叠加过滤
+                const kw = (this.search || '').trim().toLowerCase()
+                if (!kw) {
+                    this.resetSearch()
+                    return
                 }
                 if (!this.searchStatus) {
                     this.sourceData = JSON.parse(JSON.stringify(this.data))
+                    this.searchStatus = true
                 }
-                this.searchStatus = true
-                for (let d in this.data) {
-                    for (let i = 0; i < this.data[d]['nav'].length; i++) {
-                        if (this.data[d]['nav'][i]['name'].toLowerCase().indexOf(this.search.toLowerCase()) === -1) {
-                            if (this.data[d]['nav'][i]['link'].toLowerCase().indexOf(this.search.toLowerCase()) === -1) {
-                                this.data[d]['nav'].splice(i--, 1)
-                            } else {
-                                this.serarchNum++
-                            }
-                        } else {
-                            this.serarchNum++
-                        }
+                let count = 0
+                this.data = (this.sourceData || []).map(cat => {
+                    const nav = (cat.nav || []).filter(it =>
+                        ((it.name || '') + '|' + (it.link || '') + '|' + (it.desc || '')).toLowerCase().indexOf(kw) !== -1
+                    )
+                    if (nav.length) count += nav.length
+                    return {
+                        title: cat.title,
+                        name: cat.name,
+                        nav: nav
                     }
-                }
-                if (this.serarchNum === 0) {
-                    this.$Message.error('没找到哦.')
-                } else {
-                    this.$Message.success('查找到了' + this.serarchNum + '个相近的.')
-                }
+                }).filter(cat => cat.nav.length)
+                this.searchNum = count
             },
             resetSearch() {
-                this.spinShow = true
+                if (this.searchStatus) {
+                    this.data = JSON.parse(JSON.stringify(this.sourceData))
+                }
                 this.searchStatus = false
                 this.search = ''
-                this.serarchNum = 0
-                this.data = JSON.parse(JSON.stringify(this.sourceData))
-                setTimeout(() => {
-                    this.spinShow = false
-                }, 1000)
+                this.searchNum = 0
+                clearTimeout(this.searchTimer)
             }
         },
       created() {
@@ -155,7 +239,6 @@
         }
     }
 </script>
-
 <style lang=less scoped>
     .layout {
         height: 100vh;
@@ -188,15 +271,40 @@
         gap: 16px;
         padding: 0 32px !important;
         height: 64px !important;
-        line-height: 64px !important;
+        line-height: normal !important;
         flex-shrink: 0;
         box-shadow: none !important;
+    }
+
+    .welcome-wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
     }
 
     .welcome-text {
         font-size: 15px;
         font-weight: 500;
         color: var(--foreground-primary);
+        white-space: nowrap;
+    }
+
+    .stats-chip {
+        font-size: 12px;
+        color: var(--foreground-muted);
+        background: var(--surface-primary);
+        border: 1px solid var(--border-color);
+        padding: 3px 10px;
+        border-radius: 999px;
+        white-space: nowrap;
+    }
+
+    .search-result-chip {
+        font-size: 12px;
+        color: var(--accent-deep);
+        background: var(--accent-weak);
+        padding: 3px 10px;
+        border-radius: 999px;
         white-space: nowrap;
     }
 
@@ -209,18 +317,19 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        padding: 8px 14px;
+        padding: 0 14px;
         background: var(--surface-primary);
         border: 1px solid var(--border-color);
         border-radius: 999px;
-        width: 280px;
+        width: 320px;
         height: 40px;
         box-sizing: border-box;
         flex-shrink: 0;
-        transition: border-color 0.2s ease;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
         &:focus-within {
             border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-weak);
         }
     }
 
@@ -246,20 +355,16 @@
         }
     }
 
-    .search-btn {
-        background: var(--accent-primary) !important;
-        border-color: var(--accent-primary) !important;
-        color: var(--foreground-inverse) !important;
-        border-radius: 8px !important;
-        flex-shrink: 0;
-    }
+    .search-clear {
+        cursor: pointer;
+        color: var(--foreground-muted);
+        display: flex;
+        align-items: center;
+        font-size: 16px;
 
-    .reset-btn {
-        background: var(--surface-primary) !important;
-        border-color: var(--border-color) !important;
-        color: var(--foreground-secondary) !important;
-        border-radius: 8px !important;
-        flex-shrink: 0;
+        &:hover {
+            color: var(--foreground-primary);
+        }
     }
 
     .layout-scroll-area {
@@ -269,13 +374,90 @@
         background: var(--surface-primary);
     }
 
-    .layout-footer-center {
+    /* 状态区块：错误 / 搜索无结果 / 数据为空 */
+    .state-block {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        color: var(--foreground-muted);
+
+        .state-icon {
+            font-size: 48px;
+            color: var(--surface-secondary);
+            margin-bottom: 8px;
+        }
+
+        .state-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--foreground-secondary);
+        }
+
+        .state-hint {
+            font-size: 12px;
+            color: var(--foreground-muted);
+        }
+
+        button {
+            margin-top: 16px;
+            border-radius: 8px;
+        }
+    }
+
+    /* 首屏骨架屏 */
+    .skeleton-area {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .skeleton-card {
         background: var(--card-bg);
+        border-radius: 16px;
+        padding: 24px;
+    }
+
+    .sk-row {
+        width: 140px;
+        height: 16px;
+        border-radius: 4px;
+    }
+
+    .sk-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .sk-item {
+        width: 180px;
+        height: 62px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+    }
+
+    .shimmer {
+        background: linear-gradient(100deg, var(--surface-primary) 40%, var(--card-bg) 50%, var(--surface-primary) 60%);
+        background-size: 200% 100%;
+        animation: shimmer 1.2s infinite linear;
+    }
+
+    @keyframes shimmer {
+        0% { background-position: 100% 0; }
+        100% { background-position: -100% 0; }
+    }
+
+    .layout-footer-center {
+        background: var(--footer-bg);
         border-top: 1px solid var(--border-color);
         color: var(--foreground-muted);
         font-size: 12px;
         text-align: center;
-        padding: 16px 32px;
+        padding: 12px 32px;
         flex-shrink: 0;
     }
 
@@ -283,7 +465,8 @@
         color: var(--accent-primary);
     }
 
-    .menu-item span {
+    /* 侧边栏菜单 */
+    .menu-item .menu-label {
         display: inline-block;
         overflow: hidden;
         width: 120px;
@@ -300,6 +483,30 @@
         font-size: 16px;
     }
 
+    .menu-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1;
+        margin-right: 10px;
+        vertical-align: middle;
+        flex-shrink: 0;
+    }
+
+    .menu-count {
+        position: absolute;
+        right: 14px;
+        font-size: 11px;
+        color: var(--foreground-muted);
+        font-family: 'Courier New', monospace;
+    }
+
     .collapsed-menu span {
         width: 0px;
         transition: width .2s ease;
@@ -307,9 +514,15 @@
 
     .collapsed-menu i {
         transform: translateX(5px);
-        transition: font-size .2s ease .2s, transform .2s ease .2s;
+        transform: translateX(5px);
         vertical-align: middle;
         font-size: 22px;
+    }
+
+    .collapsed-menu .menu-badge {
+        width: 20px !important;
+        height: 20px !important;
+        margin-right: 0;
     }
 
     .ivu-layout-sider {
@@ -318,13 +531,42 @@
     }
 
     .ivu-layout-sider .ivu-menu-dark {
+        /* keep sidebar dark */
         background: var(--sidebar-bg) !important;
     }
 
-    .ivu-layout-sider .ivu-menu-dark.ivu-menu-vertical .ivu-menu-item-active,
-    .ivu-layout-sider .ivu-menu-dark.ivu-menu-vertical .ivu-menu-item:hover {
-        color: var(--accent-primary) !important;
-        background: #3D3D3D !important;
+    /* 圆角 pill 菜单项 + 分组标题 */
+    .ivu-layout-sider /deep/ .ivu-menu-vertical .ivu-menu-item {
+        margin: 2px 8px;
+        border-radius: 8px;
+        padding: 12px 16px;
+        transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .ivu-layout-sider /deep/ .ivu-menu-vertical .ivu-menu-item:hover {
+        background: rgba(255, 255, 255, 0.06) !important;
+        color: #FFFFFF !important;
+    }
+
+    .ivu-layout-sider /deep/ .ivu-menu-vertical .ivu-menu-item-active {
+        background: rgba(201, 123, 93, 0.18) !important;
+        color: #F0B794 !important;
+        border-right: none;
+    }
+
+    .ivu-layout-sider /deep/ .ivu-menu-vertical .ivu-menu-item-active .menu-count {
+        color: #F0B794;
+    }
+
+    .ivu-layout-sider /deep/ .ivu-menu-item-group-title {
+        font-size: 11px;
+        letter-spacing: 0.05em;
+        padding: 16px 20px 6px 20px;
+        color: rgba(255, 255, 255, 0.35);
+    }
+
+    .collapsed-menu /deep/ .ivu-menu-item-group-title {
+        display: none;
     }
 
     .logo-con {
@@ -389,21 +631,17 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
-
     .settings-tag {
         font-size: 9px;
-        font-family: 'Courier New', monospace;
+ font-family: 'Courier New', monospace;
+        padding: 2px 6px;
         padding: 2px 6px;
         border-radius: 999px;
+        background: #3D3D3D;
         background: #3D3D3D;
         color: var(--foreground-muted);
         margin-left: auto;
         white-space: nowrap;
-    }
-
-    .settings-tag-remote {
-        background: var(--accent-primary);
-        color: var(--foreground-inverse);
     }
 
     @media screen and (max-width: 768px) {
@@ -414,7 +652,7 @@
             width: auto;
             flex: 1;
         }
-        .welcome-text {
+        .welcome-wrap {
             display: none;
         }
         .layout-scroll-area {

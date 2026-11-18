@@ -1,5 +1,5 @@
 <template>
-    <div class="settings-overlay" v-show="visible" @click.self="close">
+    <div class="settings-overlay" v-show="visible" :style="{ left: siderWidth + 'px' }" @click.self="close">
         <div class="settings-panel" :class="{ 'panel-open': visible }">
             <div class="panel-header">
                 <span class="panel-title">三方API 设置</span>
@@ -188,6 +188,9 @@ export default {
     props: {
         visible: {
             default: false
+        },
+        siderWidth: {
+            default: 220
         }
     },
     data () {
@@ -240,7 +243,6 @@ export default {
 .settings-overlay {
     position: fixed;
     top: 0;
-    left: 220px;
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.3);

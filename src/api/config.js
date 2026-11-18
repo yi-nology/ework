@@ -30,22 +30,30 @@ function configToNavItem(c) {
   var nav = {
     name: c.name || c.alias || '',
     link: '',
-    desc: c.remark || '',
-    icon: ''
+    desc: c.remark || c.description || '',
+    icon: '',
+    sortOrder: 0
   }
 
-  if (c.type === 'text') {
-    nav.link = c.content || ''
-  } else if (c.type === 'keyvalue' || c.type === 'object' || c.type === 'json') {
+  // content 可能是对象，也可能是 JSON 字符串
+  var content = c.content
+  if (typeof content === 'string') {
     try {
-      var obj = typeof c.content === 'string' ? JSON.parse(c.content) : c.content
-      nav.link = obj.link || obj.url || obj.href || ''
-      nav.icon = obj.icon || obj.favicon || ''
-      nav.desc = obj.desc || obj.description || nav.desc
-      if (!nav.name && obj.name) nav.name = obj.name
+      content = JSON.parse(content)
     } catch (e) {
-      nav.link = c.content || ''
+      content = null
     }
+  }
+
+  if (content && typeof content === 'object') {
+    // web_link 类型 content 形如 { url, sort_order }，兼容 link/href/icon 字段
+    nav.link = content.link || content.url || content.href || ''
+    nav.icon = content.icon || content.favicon || ''
+    nav.desc = content.desc || content.description || nav.desc
+    if (!nav.name && content.name) nav.name = content.name
+    nav.sortOrder = content.sort_order || content.sortOrder || 0
+  } else if (c.type === 'text') {
+    nav.link = c.content || ''
   } else if (c.type === 'image') {
     nav.icon = c.content || ''
   }
@@ -53,10 +61,27 @@ function configToNavItem(c) {
   return nav
 }
 
-function fetchPipelineConfig(baseUrl, environment, pipelineKey, skipSslVerify) {
+function sortNavItems(items) {
+  return items.slice().sort(function (a, b) {
+    return (a.sortOrder || 0) - (b.sortOrder || 0)
+  })
+}
+
+function mapConfigs(configs) {
+  return sortNavItems(
+    (configs || [])
+      .map(configToNavItem)
+      .filter(function (n) {
+        return n.link || n.icon
+      })
+  )
+}
+
+// 优先使用 runtime/release（已发布快照），失败时回退 runtime/config
+function fetchPipelineNav(baseUrl, environment, pipelineKey, skipSslVerify) {
   var service = createService(skipSslVerify)
   return service({
-    url: baseUrl + '/api/v1/runtime/config',
+    url: baseUrl + '/api/v1/runtime/release',
     method: 'get',
     headers: {
       'x-environment': environment,
@@ -65,11 +90,24 @@ function fetchPipelineConfig(baseUrl, environment, pipelineKey, skipSslVerify) {
   }).then(function (resp) {
     var body = resp.data
     if (body && body.code === 200 && body.data && body.data.configs) {
-      return body.data.configs.map(configToNavItem).filter(function (n) {
-        return n.link || n.icon
-      })
+      return mapConfigs(body.data.configs)
     }
     return []
+  }).catch(function () {
+    return service({
+      url: baseUrl + '/api/v1/runtime/config',
+      method: 'get',
+      headers: {
+        'x-environment': environment,
+        'x-pipeline': pipelineKey
+      }
+    }).then(function (resp) {
+      var body = resp.data
+      if (body && body.code === 200 && body.data && body.data.configs) {
+        return mapConfigs(body.data.configs)
+      }
+      return []
+    })
   })
 }
 
@@ -90,7 +128,7 @@ export function fetchAllNavData(baseUrl, environment, skipSslVerify) {
       .sort(function (a, b) { return (a.sort_order || 0) - (b.sort_order || 0) })
 
     var requests = pipelines.map(function (p) {
-      return fetchPipelineConfig(baseUrl, environment, p.pipeline_key, skipSslVerify).then(function (nav) {
+      return fetchPipelineNav(baseUrl, environment, p.pipeline_key, skipSslVerify).then(function (nav) {
         return {
           title: p.pipeline_name || p.pipeline_key,
           name: p.pipeline_key,

@@ -5,7 +5,7 @@
             <Poptip placement="right" trigger="hover" :transfer="true" width="200" class="nav-poptip">
                 <div class="link-item" @click="jumpLink(item)">
                     <div class="link-icon">
-                        <img class="icon" v-lazy="item.icon" alt="" v-if="item.icon">
+                        <img class="icon" v-lazy="item.icon" alt="" v-if="item.icon && !item._iconErr" @error="onIconError(item)">
                         <span class="icon-letter" v-else>{{ (item.name || '?')[0].toUpperCase() }}</span>
                     </div>
                     <div class="link-text">
@@ -30,10 +30,6 @@
                         <div class="poptip-btn" @click="addFavorite(item)">
                             <Icon type="ios-heart-outline"/>
                             <span>添加收藏</span>
-                        </div>
-                        <div class="poptip-btn" @click="addBookmarks(item.link, item.name)">
-                            <Icon type="ios-bookmark-outline"/>
-                            <span>加入常用</span>
                         </div>
                         <div class="poptip-btn poptip-btn-danger" v-show="del" @click="delUrl(item)">
                             <Icon type="ios-trash-outline"/>
@@ -68,10 +64,14 @@ export default {
         }
     },
     methods: {
+        onIconError (item) {
+            // favicon 加载失败时回退为首字头像
+            this.$set(item, '_iconErr', true)
+        },
         jumpLink (item) {
             item.title = this.subTitle
             this.saveUsedList(item)
-            window.open(item.link)
+            window.open(item.link, '_blank', 'noopener')
         },
         copyLink (link) {
             var clipboard = new Clipboard('.poptip-btn', { text: function () { return link } })
@@ -92,17 +92,6 @@ export default {
         delUrl (item) {
             this.deleteList(item)
         },
-        addBookmarks (url, title) {
-            try {
-                if (window.external && window.external.AddFavorite) {
-                    window.external.AddFavorite(url, title)
-                } else {
-                    this.$Message.info('请使用 Ctrl+D (Mac: Cmd+D) 收藏本页')
-                }
-            } catch (e) {
-                this.$Message.info('请使用 Ctrl+D (Mac: Cmd+D) 收藏本页')
-            }
-        },
         ...mapActions([
             'saveFavoriteList',
             'saveUsedList',
@@ -119,6 +108,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
+    list-style: none;
 }
 
 .nav-li {
@@ -142,56 +132,20 @@ export default {
     transition: all 0.2s ease;
 
     &:hover {
-        border: 2px solid var(--accent-primary);
-        padding: 11px;
-        box-shadow: 0 4px 12px rgba(212, 145, 110, 0.2);
+        border-color: var(--accent-primary);
+        box-shadow: inset 0 0 0 1px var(--accent-primary), 0 6px 16px rgba(201, 123, 93, 0.18);
+        transform: translateY(-1px);
 
         .link-icon {
-            background: var(--accent-primary);
-
-            .icon {
-                filter: brightness(0) invert(1);
-            }
+            background: var(--accent-weak);
 
             .icon-letter {
-                color: var(--foreground-inverse);
+                color: var(--accent-deep);
             }
         }
 
         .link-name {
-            font-weight: 600;
-        }
-
-        .link-desc {
-            color: var(--accent-primary);
-        }
-    }
-
-    &:active {
-        background: var(--accent-primary);
-        border: 2px solid var(--accent-primary);
-        padding: 11px;
-        box-shadow: 0 2px 4px rgba(212, 145, 110, 0.27);
-
-        .link-icon {
-            background: var(--foreground-inverse);
-
-            .icon {
-                filter: none;
-            }
-
-            .icon-letter {
-                color: var(--accent-primary);
-            }
-        }
-
-        .link-name {
-            color: var(--foreground-inverse);
-            font-weight: 600;
-        }
-
-        .link-desc {
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--accent-deep);
         }
     }
 }
@@ -200,7 +154,7 @@ export default {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: var(--surface-primary);
+    background: var(--cat-weak, var(--surface-primary));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -219,7 +173,7 @@ export default {
     .icon-letter {
         font-size: 14px;
         font-weight: 600;
-        color: var(--accent-primary);
+        color: var(--cat-color, var(--accent-primary));
         transition: color 0.2s ease;
     }
 }
@@ -260,6 +214,11 @@ export default {
 
 .nav-poptip {
     display: block;
+
+    /* ivu-poptip-rel 是 inline-block，会随内容收缩导致卡片宽度不一，撑满 li */
+    /deep/ .ivu-poptip-rel {
+        width: 100%;
+    }
 }
 
 .poptip-panel {

@@ -97,13 +97,11 @@ module.exports = {
         https: false,
         hotOnly: false,
         proxy: {
+            // 本地开发时代理到与线上一致的 Rainbow Bridge 环境
             '/rainbow-bridge': {
-                target: 'https://rainbow.me',
+                target: 'http://10.60.226.43:31870',
                 changeOrigin: true,
-                secure: false,
-                headers: {
-                    'Referer': 'https://rainbow.me'
-                }
+                secure: false
             }
         },
         // eslint-disable-next-line no-unused-vars

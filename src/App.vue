@@ -14,9 +14,14 @@
     --foreground-muted: #6B6B6B;
     --foreground-inverse: #FFFFFF;
     --accent-primary: #D4916E;
+    --accent-deep: #C97B5D;
+    --accent-weak: #F6E4DB;
+    --footer-bg: #FBF7F2;
     --sidebar-bg: #2B2B2B;
     --card-bg: #FFFFFF;
     --border-color: #E8E2DA;
+    --shadow-card: 0 1px 2px rgba(26, 26, 26, 0.03), 0 6px 20px rgba(26, 26, 26, 0.05);
+    --shadow-float: 0 12px 32px rgba(26, 26, 26, 0.12);
 }
 
 * {
@@ -54,5 +59,35 @@ html, body {
 
 .ivu-card-head {
     border-bottom: none !important;
+}
+
+/* 回到顶部按钮 */
+.ivu-back-top-inner {
+    background: var(--accent-primary) !important;
+    border-radius: 10px !important;
+    box-shadow: var(--shadow-float) !important;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+}
+
+.ivu-back-top-inner:hover {
+    background: var(--accent-deep) !important;
+}
+
+/* 搜索结果计数 chip 过渡 */
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+    transform: translateX(6px);
 }
 </style>
