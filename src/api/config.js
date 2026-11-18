@@ -1,33 +1,13 @@
 import axios from 'axios'
 
-function createService(skipSslVerify) {
-  var config = { timeout: 10000 }
-  
-  if (typeof process !== 'undefined' && process.versions && process.versions.node) {
-    var https = require('https')
-    if (skipSslVerify) {
-      config.httpsAgent = new https.Agent({
-        rejectUnauthorized: false
-      })
-    }
-  }
-  
-  var service = axios.create(config)
-
-  service.interceptors.response.use(
-    function (resp) { return resp },
-    function (error) {
-      // eslint-disable-next-line no-console
-      console.error('Config API Error:', error)
-      return Promise.reject(error)
-    }
-  )
-  
+function createService () {
+  const service = axios.create({ timeout: 10000 })
+  service.interceptors.response.use(r => r, error => Promise.reject(error))
   return service
 }
 
-function configToNavItem(c) {
-  var nav = {
+function configToNavItem (c) {
+  const nav = {
     name: c.name || c.alias || '',
     link: '',
     desc: c.remark || c.description || '',
@@ -36,7 +16,7 @@ function configToNavItem(c) {
   }
 
   // content 可能是对象，也可能是 JSON 字符串
-  var content = c.content
+  let content = c.content
   if (typeof content === 'string') {
     try {
       content = JSON.parse(content)
@@ -61,107 +41,80 @@ function configToNavItem(c) {
   return nav
 }
 
-function sortNavItems(items) {
-  return items.slice().sort(function (a, b) {
-    return (a.sortOrder || 0) - (b.sortOrder || 0)
-  })
+function mapConfigs (configs) {
+  return (configs || [])
+    .map(configToNavItem)
+    .filter(n => n.link || n.icon)
+    .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0))
 }
 
-function mapConfigs(configs) {
-  return sortNavItems(
-    (configs || [])
-      .map(configToNavItem)
-      .filter(function (n) {
-        return n.link || n.icon
-      })
-  )
-}
-
-// 优先使用 runtime/release（已发布快照），失败时回退 runtime/config
-function fetchPipelineNav(baseUrl, environment, pipelineKey, skipSslVerify) {
-  var service = createService(skipSslVerify)
+function fetchRelease (service, baseUrl, environment, pipelineKey) {
   return service({
     url: baseUrl + '/api/v1/runtime/release',
     method: 'get',
-    headers: {
-      'x-environment': environment,
-      'x-pipeline': pipelineKey
-    }
-  }).then(function (resp) {
-    var body = resp.data
+    headers: { 'x-environment': environment, 'x-pipeline': pipelineKey }
+  }).then(resp => {
+    const body = resp.data
     if (body && body.code === 200 && body.data && body.data.configs) {
       return mapConfigs(body.data.configs)
     }
     return []
-  }).catch(function () {
-    return service({
-      url: baseUrl + '/api/v1/runtime/config',
-      method: 'get',
-      headers: {
-        'x-environment': environment,
-        'x-pipeline': pipelineKey
-      }
-    }).then(function (resp) {
-      var body = resp.data
-      if (body && body.code === 200 && body.data && body.data.configs) {
-        return mapConfigs(body.data.configs)
-      }
-      return []
-    })
   })
 }
 
-export function fetchAllNavData(baseUrl, environment, skipSslVerify) {
-  var service = createService(skipSslVerify)
+function fetchConfig (service, baseUrl, environment, pipelineKey) {
+  return service({
+    url: baseUrl + '/api/v1/runtime/config',
+    method: 'get',
+    headers: { 'x-environment': environment, 'x-pipeline': pipelineKey }
+  }).then(resp => {
+    const body = resp.data
+    if (body && body.code === 200 && body.data && body.data.configs) {
+      return mapConfigs(body.data.configs)
+    }
+    return []
+  })
+}
+
+function fetchPipelineNav (service, baseUrl, environment, pipelineKey) {
+  // 优先使用 runtime/release（已发布快照），失败时回退 runtime/config
+  return fetchRelease(service, baseUrl, environment, pipelineKey).catch(() =>
+    fetchConfig(service, baseUrl, environment, pipelineKey)
+  )
+}
+
+export function fetchAllNavData (baseUrl, environment) {
+  const service = createService()
   return service({
     url: baseUrl + '/api/v1/pipeline/list',
     method: 'get',
     params: { environment_key: environment }
-  }).then(function (resp) {
-    var body = resp.data
-    if (!body || body.code !== 200 || !body.data || !body.data.list) {
-      return []
-    }
+  }).then(resp => {
+    const body = resp.data
+    if (!body || body.code !== 200 || !body.data || !body.data.list) return []
 
-    var pipelines = body.data.list
-      .filter(function (p) { return p.is_active !== false })
-      .sort(function (a, b) { return (a.sort_order || 0) - (b.sort_order || 0) })
+    const pipelines = body.data.list
+      .filter(p => p.is_active !== false)
+      .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
 
-    var requests = pipelines.map(function (p) {
-      return fetchPipelineNav(baseUrl, environment, p.pipeline_key, skipSslVerify).then(function (nav) {
-        return {
-          title: p.pipeline_name || p.pipeline_key,
-          name: p.pipeline_key,
-          nav: nav
-        }
-      }).catch(function () {
-        return {
-          title: p.pipeline_name || p.pipeline_key,
-          name: p.pipeline_key,
-          nav: []
-        }
-      })
-    })
+    const requests = pipelines.map(p =>
+      fetchPipelineNav(service, baseUrl, environment, p.pipeline_key)
+        .then(nav => ({ title: p.pipeline_name || p.pipeline_key, name: p.pipeline_key, nav }))
+        .catch(() => ({ title: p.pipeline_name || p.pipeline_key, name: p.pipeline_key, nav: [] }))
+    )
 
-    return Promise.all(requests).then(function (results) {
-      return results.filter(function (r) { return r.nav.length > 0 })
-    })
+    return Promise.all(requests).then(results => results.filter(r => r.nav.length > 0))
   })
 }
 
-export function fetchNacosConfig(serverAddr, namespace, dataId, group, skipSslVerify) {
-  var service = createService(skipSslVerify)
-  var url = serverAddr + '/v1/cs/configs'
+export function fetchNacosConfig (serverAddr, namespace, dataId, group) {
+  const service = createService()
   return service({
-    url: url,
+    url: serverAddr + '/v1/cs/configs',
     method: 'get',
-    params: {
-      dataId: dataId,
-      group: group,
-      tenant: namespace
-    }
-  }).then(function (resp) {
-    var content = resp.data
+    params: { dataId, group, tenant: namespace }
+  }).then(resp => {
+    const content = resp.data
     if (typeof content === 'string') {
       try {
         return JSON.parse(content)
@@ -173,16 +126,15 @@ export function fetchNacosConfig(serverAddr, namespace, dataId, group, skipSslVe
   })
 }
 
-export function fetchApolloConfig(meta, appId, namespace, skipSslVerify) {
-  var service = createService(skipSslVerify)
-  var url = meta + '/configs/' + appId + '/default/' + namespace
+export function fetchApolloConfig (meta, appId, namespace) {
+  const service = createService()
   return service({
-    url: url,
+    url: meta + '/configs/' + appId + '/default/' + namespace,
     method: 'get'
-  }).then(function (resp) {
-    var body = resp.data
+  }).then(resp => {
+    const body = resp.data
     if (body && body.configurations) {
-      var navData = body.configurations.navData || body.configurations.ework_nav
+      const navData = body.configurations.navData || body.configurations.ework_nav
       if (navData) {
         try {
           return JSON.parse(navData)
@@ -196,12 +148,7 @@ export function fetchApolloConfig(meta, appId, namespace, skipSslVerify) {
   })
 }
 
-export function getLocalData(url, skipSslVerify) {
-  var service = createService(skipSslVerify)
-  return service({
-    url: url,
-    method: 'get'
-  }).then(function (resp) {
-    return resp.data
-  })
+export function getLocalData (url) {
+  const service = createService()
+  return service({ url, method: 'get' }).then(resp => resp.data)
 }
