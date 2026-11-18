@@ -3,11 +3,14 @@
     <template #trigger>
       <a class="link-card" :href="item.link" target="_blank" rel="noopener" @click="onOpen">
         <span class="avatar" :style="avatarStyle">
-          <img v-if="item.icon && !iconErr" :src="item.icon" alt="" @error="iconErr = true" />
+          <img v-if="currentIcon" :src="currentIcon" alt="" referrerpolicy="no-referrer" @error="onIconError" />
           <span v-else class="letter">{{ initial }}</span>
         </span>
         <span class="meta">
-          <span class="name" v-html="highlightText(item.name)"></span>
+          <span class="name-row">
+            <span class="name" v-html="highlightText(item.name)"></span>
+            <n-icon v-if="item.isPerm" class="perm-lock" :component="LockClosedOutline" />
+          </span>
           <span class="desc" v-if="item.desc" v-html="highlightText(item.desc)"></span>
         </span>
         <n-icon class="open-icon" :component="OpenOutline" />
@@ -15,6 +18,10 @@
     </template>
     <div class="popover-body">
       <p class="url" :title="item.link">{{ item.link }}</p>
+      <p class="tags" v-if="item.type || item.isPerm">
+        <span class="type-chip">{{ item.type || 'link' }}</span>
+        <span class="type-chip perm" v-if="item.isPerm">私有</span>
+      </p>
       <div class="actions">
         <n-button size="tiny" quaternary @click="copy">复制</n-button>
         <n-button size="tiny" quaternary @click="fav">收藏</n-button>
@@ -28,7 +35,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { NButton, NIcon, NPopover, useMessage } from 'naive-ui'
-import { OpenOutline } from '@vicons/ionicons5'
+import { OpenOutline, LockClosedOutline } from '@vicons/ionicons5'
 import { useFavorites } from '@/composables/useFavorites'
 import { useNavData } from '@/composables/useNavData'
 import { badgeForIndex } from '@/common/palette'
@@ -40,10 +47,33 @@ const props = defineProps({
   deletable: { type: Boolean, default: false }
 })
 
-const iconErr = ref(false)
 const { addFavorite, addUsed, removeItem } = useFavorites()
 const { keyword } = useNavData()
 const { message } = useMessage()
+
+// 图标三级回退: 配置图标 -> 域名推导 favicon(仅公网域名) -> 首字头像
+const iconStage = ref(0)
+
+const derivedIcon = computed(() => {
+  try {
+    const u = new URL(props.item.link)
+    if (u.protocol !== 'http:' && u.protocol !== 'https:') return ''
+    const h = u.hostname
+    const isIp = /^([0-9]{1,3}\.){3}[0-9]{1,3}$/.test(h) || h === 'localhost' || h.includes(':')
+    if (isIp) return ''
+    return 'https://icons.duckduckgo.com/ip3/' + h + '.ico'
+  } catch (e) {
+    return ''
+  }
+})
+
+const iconSrcList = computed(() => [props.item.icon, derivedIcon.value].filter(Boolean))
+
+const currentIcon = computed(() => iconSrcList.value[iconStage.value] || '')
+
+function onIconError () {
+  if (iconStage.value < iconSrcList.value.length - 1) iconStage.value += 1
+}
 
 const initial = computed(() => (props.item.name || '?').trim()[0] || '?')
 const avatarStyle = computed(() => ({ background: badgeForIndex(props.catIndex).bg }))
@@ -118,6 +148,12 @@ function del () {
   flex-direction: column;
   gap: 2px;
 }
+.name-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
 .name {
   font-size: 13px;
   font-weight: 500;
@@ -125,6 +161,10 @@ function del () {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.perm-lock {
+  color: var(--text-3);
+  flex-shrink: 0;
 }
 .desc {
   font-size: 11px;
@@ -157,6 +197,22 @@ function del () {
   display: flex;
   gap: 4px;
   margin-top: 6px;
+}
+.popover-body .tags {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+.type-chip {
+  font-size: 10px;
+  color: var(--text-3);
+  background: var(--bg-soft);
+  padding: 1px 8px;
+  border-radius: 999px;
+}
+.type-chip.perm {
+  color: var(--accent-deep);
+  background: var(--accent-weak);
 }
 .popover-body .hint {
   font-size: 11px;

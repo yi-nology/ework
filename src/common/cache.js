@@ -7,6 +7,17 @@ const USED_MAX_LEN = 200
 const RB_SETTINGS_KEY = '__rb_settings__'
 const THEME_KEY = '__theme__'
 
+// js-cookie v3 的 get() 不再自动解析 JSON,统一从这里读
+function getJSONCookie (key) {
+  const raw = Cookies.get(key)
+  if (!raw) return null
+  try {
+    return JSON.parse(raw)
+  } catch (e) {
+    return null
+  }
+}
+
 function insertArray (arr, val, compare, maxLen) {
   const index = arr.findIndex(compare)
   if (index === 0) {
@@ -26,7 +37,7 @@ function deleteFromArray (arr, compare) {
 }
 
 export function loadFavorite () {
-  return Cookies.get(FAVORITE_KEY) || []
+  return getJSONCookie(FAVORITE_KEY) || []
 }
 
 export function saveFavorite (url) {
@@ -49,7 +60,7 @@ export function removeFavorite () {
 }
 
 export function loadUsed () {
-  return Cookies.get(USED_KEY) || []
+  return getJSONCookie(USED_KEY) || []
 }
 
 export function saveUsed (url) {
@@ -96,11 +107,13 @@ export const RB_DEFAULTS = {
   apolloMeta: env('VITE_APOLLO_META', readRuntimeConfig().apolloMeta || 'http://localhost:8080'),
   apolloAppId: env('VITE_APOLLO_APP_ID', readRuntimeConfig().apolloAppId || 'ework-nav'),
   apolloNamespace: env('VITE_APOLLO_NAMESPACE', readRuntimeConfig().apolloNamespace || 'application'),
-  skipSslVerify: String(env('VITE_SKIP_SSL_VERIFY', String(readRuntimeConfig().skipSslVerify === true))) === 'true'
+  skipSslVerify: String(env('VITE_SKIP_SSL_VERIFY', String(readRuntimeConfig().skipSslVerify === true))) === 'true',
+  hidePrivate: false,
+  autoRefresh: true
 }
 
 export function loadRbSettings () {
-  const value = Cookies.get(RB_SETTINGS_KEY)
+  const value = getJSONCookie(RB_SETTINGS_KEY)
   if (!value) return { ...RB_DEFAULTS }
   return { ...RB_DEFAULTS, ...value }
 }

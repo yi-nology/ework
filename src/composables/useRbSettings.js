@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import { loadRbSettings, saveRbSettings, removeRbSettings, RB_DEFAULTS } from '@/common/cache'
 
-const settings = reactive(loadRbSettings()) // 单例
+export const settings = reactive(loadRbSettings()) // 单例
 
 export function useRbSettings () {
   const save = () => {

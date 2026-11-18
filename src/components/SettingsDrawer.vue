@@ -35,6 +35,14 @@
           </n-form-item>
         </template>
 
+        <n-form-item label="显示过滤">
+          <n-checkbox v-model:checked="settings.hidePrivate">隐藏标记为私有的配置项</n-checkbox>
+        </n-form-item>
+
+        <n-form-item v-if="remote" label="自动刷新">
+          <n-checkbox v-model:checked="settings.autoRefresh">每 5 分钟静默拉取新快照（页面可见时）</n-checkbox>
+        </n-form-item>
+
         <n-form-item v-if="remote" label="SSL 证书验证">
           <n-checkbox v-model:checked="settings.skipSslVerify">跳过 SSL 证书验证（自签名证书）</n-checkbox>
         </n-form-item>
