@@ -11,21 +11,21 @@
             <span class="name" v-html="highlightText(item.name)"></span>
             <n-icon v-if="item.isPerm" class="perm-lock" :component="LockClosedOutline" />
           </span>
-          <span class="desc" v-if="item.desc" v-html="highlightText(item.desc)"></span>
+          <span v-if="item.desc" class="desc" v-html="highlightText(item.desc)"></span>
         </span>
         <n-icon class="open-icon" :component="OpenOutline" />
       </a>
     </template>
     <div class="popover-body">
       <p class="url" :title="item.link">{{ item.link }}</p>
-      <p class="tags" v-if="item.type || item.isPerm">
+      <p v-if="item.type || item.isPerm" class="tags">
         <span class="type-chip">{{ item.type || 'link' }}</span>
-        <span class="type-chip perm" v-if="item.isPerm">私有</span>
+        <span v-if="item.isPerm" class="type-chip perm">私有</span>
       </p>
       <div class="actions">
         <n-button size="tiny" quaternary @click="copy">复制</n-button>
         <n-button size="tiny" quaternary @click="fav">收藏</n-button>
-        <n-button size="tiny" quaternary type="error" @click="del" v-if="deletable">删除</n-button>
+        <n-button v-if="deletable" size="tiny" quaternary type="error" @click="del">删除</n-button>
       </div>
       <p class="hint">Ctrl/⌘+K 快速搜索</p>
     </div>
@@ -37,7 +37,6 @@ import { computed, ref } from 'vue'
 import { NButton, NIcon, NPopover, useMessage } from 'naive-ui'
 import { OpenOutline, LockClosedOutline } from '@vicons/ionicons5'
 import { useFavorites } from '@/composables/useFavorites'
-import { useNavData } from '@/composables/useNavData'
 import { badgeForIndex } from '@/common/palette'
 import { highlightText } from '@/common/highlight'
 
@@ -48,7 +47,6 @@ const props = defineProps({
 })
 
 const { addFavorite, addUsed, removeItem } = useFavorites()
-const { keyword } = useNavData()
 const { message } = useMessage()
 
 // 图标三级回退: 配置图标 -> 域名推导 favicon(仅公网域名) -> 首字头像
@@ -62,7 +60,7 @@ const derivedIcon = computed(() => {
     const isIp = /^([0-9]{1,3}\.){3}[0-9]{1,3}$/.test(h) || h === 'localhost' || h.includes(':')
     if (isIp) return ''
     return 'https://icons.duckduckgo.com/ip3/' + h + '.ico'
-  } catch (e) {
+  } catch {
     return ''
   }
 })
@@ -86,7 +84,7 @@ async function copy () {
   try {
     await navigator.clipboard.writeText(props.item.link)
     message.success('复制成功')
-  } catch (e) {
+  } catch {
     message.error('复制失败')
   }
 }

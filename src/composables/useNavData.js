@@ -31,7 +31,7 @@ export async function load (silent = false) {
     categories.value = normalize(result.categories)
     releaseMeta.value = result.meta || null
     if (silent) error.value = false
-  } catch (e) {
+  } catch {
     // 静默刷新失败时保留旧数据，不打断使用
     if (!silent) error.value = true
   } finally {

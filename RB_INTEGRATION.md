@@ -12,127 +12,86 @@ ework 导航站通过「三方API」配置中心动态获取导航数据，支�
 ## 架构
 
 ```
-┌─────────────┐         ┌──────────────────────┐
-│             │  HTTP   │   Rainbow Bridge     │
-│   ework     │ ──────> │   配置管理平台         │
-│  导航站      │         │                      │
-│             │ <────── │  /api/v1/pipeline/list│
-│             │         │  /api/v1/runtime/config│
-└─────────────┘         └──────────────────────┘
+┌─────────────┐         ┌───────────────────────────┐
+│             │  HTTP   │  Rainbow Bridge (v5.3+)   │
+│   ework     │ ──────> │                           │
+│  导航站      │         │  /api/v1/runtime/release  │  <- 主接口(公开)
+│             │ <────── │  /api/v1/runtime/overview │  <- 渠道发现(公开)
+└─────────────┘         └───────────────────────────┘
+     │
+     └─ 降级链路: /api/v1/pipeline/list (带 sort_order, 新版需管理员鉴权)
+                 失败时自动降级到 overview
 ```
 
 ## 数据流
 
 ```
 页面加载
-  │
-  ├─ 读取 Cookie 中的覆盖配置 (loadRbSettings)
-  │    ├─ dataMode: local / remote
-  │    ├─ configType: rainbow-bridge / nacos / apollo
-  │    ├─ 各配置中心连接参数
-  │    └─ skipSslVerify: SSL 证书验证开关
-  │
-  ├─ dataMode === 'local'
-  │    └─ 请求静态 JSON 文件 (COS)
-  │
-  └─ dataMode === 'remote'
-       ├─ configType === 'rainbow-bridge'
-       │    ├─ GET /api/v1/pipeline/list
-       │    └─ 对每个 Pipeline: GET /api/v1/runtime/config
-       │
-       ├─ configType === 'nacos'
-       │    └─ GET /v1/cs/configs 直接获取导航 JSON
-       │
-       └─ configType === 'apollo'
-            └─ GET /configs/{appId}/default/{namespace}
-               → 提取 navData 配置项
+  |
+  |-- 读取配置 (loadRbSettings): Cookie 覆盖 > window.ESHOP_CONFIG > Vite env
+  |
+  |-- dataMode === 'local'
+  |    |-- 请求静态 JSON (localDataUrl, 如同域 /nav-data.json 或 COS)
+  |
+  |-- dataMode === 'remote'
+       |-- rainbow-bridge:
+       |    1. 渠道发现: pipeline/list -> (401/403 时) -> runtime/overview
+       |    2. 逐渠道: GET /api/v1/runtime/release (x-environment/x-pipeline)
+       |       -> configs[] + release 元数据(version/activated_at/snapshot_id)
+       |    3. 聚合元数据 -> Header 数据快照 chip; 每 5 分钟静默自刷新
+       |-- nacos: GET /v1/cs/configs
+       +-- apollo: GET /configs/{appId}/default/{namespace} -> 提取 navData
 ```
 
 ---
 
 ## API 接口
 
-### 1. 获取 Pipeline 列表
+### 1. 渠道发现（双链路降级）
+
+**链路 A（优先）:** `GET {baseUrl}/api/v1/pipeline/list?environment_key={env}`
+带 `sort_order` / `is_active` / `description`；**新版虹桥需要管理员鉴权**，401/403 时自动降级。
+
+**链路 B（公开保底）:** `GET {baseUrl}/api/v1/runtime/overview`
+免鉴权白名单端点，返回环境->渠道树，但**不含 sort_order**（已向虹桥提 issue 建议补充，见 rainbow_bridge#52）。
+
+### 2. 渠道发布快照（主接口）
 
 ```
-GET {baseUrl}/api/v1/pipeline/list?environment_key={environment}
+GET {baseUrl}/api/v1/runtime/release
 ```
 
-**请求参数 (Query):**
+| Header | 必填 | 说明 |
+|--------|------|------|
+| `x-environment` | 是 | 环境标识，如 `navi` |
+| `x-pipeline` | 是 | 渠道标识 |
 
-| 参数 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `environment_key` | string | 是 | 环境标识，如 `navi`、`prod` |
-| `is_active` | bool | 否 | 传 `true` 仅返回活跃的 Pipeline |
+Query 可选 `version`（锁定历史版本）、`content_format=json|raw`（默认 json，web_link/object/keyvalue 的 content 直接是对象）。
 
-**响应:**
+**响应顶层（release 元数据，ework 用于数据新鲜度展示与自刷新判断）:**
 
-```json
-{
-    "code": 200,
-    "msg": "OK",
-    "data": {
-        "total": 3,
-        "list": [
-            {
-                "environment_key": "navi",
-                "pipeline_key": "dev-tools",
-                "pipeline_name": "开发工具",
-                "description": "开发相关工具导航",
-                "sort_order": 1,
-                "is_active": true
-            }
-        ]
-    }
-}
-```
+| 字段 | 说明 |
+|------|------|
+| `version` / `snapshot_id` | 快照版本与唯一 ID |
+| `activated_at` | 激活时间 (RFC3339 UTC)，仅 active 模式返回 |
+| `selection_mode` | `active`（跟随最新）或 `fixed`（固定版本） |
+| `active_revision` / `source_freeze_revision` / `payload_sha256` | 版本追溯信息 |
+| `environment` | `{environment_key, environment_name, pipeline_key, pipeline_name}` |
 
-### 2. 获取 Pipeline 配置项
+**configs[] 每项字段:**
 
-```
-GET {baseUrl}/api/v1/runtime/config
-```
+| 字段 | 说明 |
+|------|------|
+| `resource_key` / `alias` / `name` | 业务键 / 别名 / 显示名 |
+| `type` | 自由字符串（12 种），ework 透传并在卡片 popover 展示 |
+| `content` | 按 type 解释；web_link = `{url, icon_url?, sort_order?}` |
+| `remark` / `description` | 备注 / 描述，ework 取 `remark || description` 作卡片描述 |
+| `is_perm` | 私有标记：true 时卡片显示锁徽章，可在设置中隐藏 |
+| content 中 `release-asset://` | 虹桥渲染为快照资产地址，可长期缓存（同快照不可变） |
 
-**请求头 (Headers):**
+### 3. Legacy 兜底（仅老版本虹桥）
 
-| Header | 类型 | 必填 | 说明 |
-|--------|------|------|------|
-| `x-environment` | string | 是 | 环境标识 |
-| `x-pipeline` | string | 是 | Pipeline 标识 |
-
-**响应:**
-
-```json
-{
-    "code": 200,
-    "msg": "OK",
-    "data": {
-        "configs": [
-            {
-                "resource_key": "gitlab",
-                "name": "GitLab",
-                "alias": "gitlab",
-                "type": "object",
-                "content": {
-                    "link": "https://gitlab.example.com",
-                    "icon": "https://gitlab.example.com/favicon.ico",
-                    "desc": "代码仓库"
-                },
-                "remark": "主代码仓库"
-            }
-        ],
-        "environment": {
-            "environment_key": "navi",
-            "pipeline_name": "开发工具"
-        }
-    }
-}
-```
-
-**认证:** 两个接口均无需认证（Auth 中间件为非强制模式）。
-
----
-
+`/api/v1/runtime/config` 已在虹桥 v5.3 删除（5d0a2e2）。ework 仅在 release 请求失败时尝试该端点，用于兼容 v5.3 前的旧部署。
 ## 配置项类型映射
 
 虹桥计划支持多种配置类型，ework 按以下规则将配置转换为导航项：
@@ -141,9 +100,12 @@ GET {baseUrl}/api/v1/runtime/config
 
 | Config Type | content 格式 | 转换逻辑 |
 |-------------|-------------|---------|
+| `web_link`（推荐） | JSON 对象 | `link = url`；`icon = icon_url \|\| icon \|\| favicon`；`sort_order` 参与卡片排序 |
 | `text` | 纯文本 URL | `link = content` |
-| `keyvalue` / `object` / `json` | JSON 对象 | 解析 JSON，提取 `link`/`url`/`href`、`icon`/`favicon`、`desc`/`description`、`name` |
-| `image` | 图片 URL | `icon = content` |
+| `keyvalue` / `object` / `json` | JSON 对象 | 解析 JSON，提取 `link`/`url`/`href`、`icon`/`icon_url`/`favicon`、`desc`/`description`、`name` |
+| `image` | 图片/资产 URL | `icon = content`（快照资产地址不可变，可长期缓存） |
+
+另：`is_perm` 透传到导航项，卡片显示私有锁徽章；`type` 透传并在 popover 展示；其余类型仅当 content 能解析出链接或图标时渲染。
 
 ### JSON 对象可用字段
 
@@ -162,12 +124,14 @@ GET {baseUrl}/api/v1/runtime/config
 
 ### 推荐配置格式
 
-在虹桥计划中创建导航链接时，推荐使用 `object` 类型，content 格式如下：
+在虹桥计划中创建导航链接时，推荐直接使用 `web_link` 类型（虹桥 v5.4+，写入时校验 url/icon_url 格式），只需填 `url` 与可选 `icon_url`、`sort_order`；描述写在配置项的 `remark` 或 `description` 字段，显示名用 `name`。
+
+如需自定义扩展字段（如内网别名、备注链接），可退而使用 `object` 类型，content 支持以下字段：
 
 ```json
 {
     "link": "https://gitlab.example.com",
-    "icon": "https://gitlab.example.com/favicon.ico",
+    "icon": "https://example.com/favicon.ico",
     "desc": "代码仓库"
 }
 ```
@@ -245,6 +209,15 @@ GET {meta}/configs/{appId}/default/{namespace}
 ---
 
 ## 环境配置
+
+### 配置优先级（重要）
+
+Cookie 用户覆盖 > `window.ESHOP_CONFIG`（**运行时注入**，docker-entrypoint.sh 写入）> 构建期 `VITE_*` 环境变量 > 代码默认。
+运行时注入必须能压过构建期变量，否则容器启动注入不生效（PR #54 曾修复一次反转）。
+
+**部署形态：**
+- GitHub Pages（ework.murphyyi.com）：无注入，仓库 `public/config.js` 即生效 → local + 同域 `/nav-data.json`
+- Docker/K8s：entrypoint 覆写 config.js → remote + 虹桥
 
 ### 编译时环境变量
 
@@ -414,17 +387,21 @@ yarn build:static
 ```
 src/
 ├── api/
-│   ├── github.js          # 数据获取入口，读取 Cookie 配置分发请求
+│   ├── index.js            # 数据获取入口，读取 Cookie 配置分发请求
 │   └── config.js           # 配置中心 API 客户端 (Rainbow Bridge / Nacos / Apollo)
-├── common/js/
-│   └── cache.js            # Cookie 存储 (收藏/常用/三方API设置)
+├── common/
+│   ├── cache.js            # Cookie 存储 (收藏/常用/三方API设置/主题)
+│   ├── palette.js          # 分类配色 (12 色大地色系)
+│   └── highlight.js        # 搜索命中高亮
+├── composables/            # 模块级单例状态 (useNavData/useFavorites/useRbSettings/useTheme/useUiState)
 ├── components/
-│   ├── main.vue            # 主布局，侧边栏设置入口
-│   ├── settings.vue        # 三方API 设置面板
-│   └── card/
-│       ├── sub.vue         # 分类卡片容器
-│       └── nav.vue         # 导航链接项
-└── store/                  # Vuex (收藏/常用)
+│   ├── AppSider.vue        # 暗色侧边栏 (分组/徽标/scroll-spy/主题切换)
+│   ├── AppHeader.vue       # Header (问候/统计/搜索/快照chip/刷新)
+│   ├── ContentArea.vue     # 状态区 (骨架屏/错误/空态) + 分类列表
+│   ├── CategoryCard.vue    # 分类卡片容器
+│   ├── LinkCard.vue        # 导航链接项 (图标三级回退/私有锁/操作popover)
+│   └── SettingsDrawer.vue  # 配置中心抽屉
+└── views/HomeView.vue      # 布局壳
 ```
 
 ## 错误处理

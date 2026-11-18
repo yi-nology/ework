@@ -9,7 +9,7 @@
           </n-radio-group>
         </n-form-item>
 
-        <n-form-item label="配置中心类型" v-if="remote">
+        <n-form-item v-if="remote" label="配置中心类型">
           <n-radio-group v-model:value="settings.configType">
             <n-radio value="rainbow-bridge">配置中心</n-radio>
             <n-radio value="nacos">Nacos</n-radio>

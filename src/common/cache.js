@@ -13,7 +13,7 @@ function getJSONCookie (key) {
   if (!raw) return null
   try {
     return JSON.parse(raw)
-  } catch (e) {
+  } catch {
     return null
   }
 }

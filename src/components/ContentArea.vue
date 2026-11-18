@@ -12,7 +12,7 @@
     </n-result>
 
     <div v-else-if="loading && !totalCount" class="skeleton-wrap">
-      <div class="sk-card" v-for="i in 2" :key="i">
+      <div v-for="i in 2" :key="i" class="sk-card">
         <n-skeleton text width="30%" :sharp="false" />
         <div class="sk-grid">
           <n-skeleton v-for="j in 8" :key="j" text :sharp="false" class="sk-item" />
