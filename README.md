@@ -24,23 +24,28 @@
 - 全屏拉伸模式，独立滚动区域
 - 移动端自适应
 
+## 技术栈
+
+Vue 3.5 + Vite 6 + Naive UI 2 + Vue Router 4，全部 Composition API (`<script setup>`)，状态为模块级单例 composables，无 Vuex。
+支持亮/暗双主题（侧边栏底部切换）、Ctrl/⌘+K 快捷搜索、搜索命中高亮。
+
 ## 快速开始
 
 ```bash
 # 安装依赖
-yarn install
+npm install
 
 # 开发模式
-yarn serve
+npm run dev
 
 # 生产构建（含虹桥计划功能）
-yarn build
+npm run build
 
 # 纯静态构建（无虹桥计划功能）
-yarn build:static
+npm run build:static
 
 # 代码检查
-yarn lint
+npm run lint
 ```
 
 ## 添加网址

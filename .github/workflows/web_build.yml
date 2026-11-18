@@ -13,8 +13,8 @@ jobs:
           persist-credentials: false
       - name: add node  🔧
         run: |
-          yarn install --ignore-engines
-          yarn build
+          npm ci
+          npm run build
       - name: web deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
