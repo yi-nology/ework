@@ -1,17 +1,10 @@
-// 运行时配置（部署环境中由 docker-entrypoint.sh / 运维注入覆盖）
+// 运行时配置:作为无注入部署(GitHub Pages 等)的默认值
+// docker/k8s 部署由 docker-entrypoint.sh 在启动时覆写本文件
 // 优先级: Cookie 设置 > window.ESHOP_CONFIG > Vite 环境变量
 window.ESHOP_CONFIG = {
-  dataMode: "remote",
+  // Pages 无后端,默认走本地数据;docker 部署注入 dataMode: "remote"
+  dataMode: "local",
   configType: "rainbow-bridge",
-  baseUrl: "/rainbow-bridge",
-  environment: "navi",
   localDataUrl: "/nav-data.json",
-  nacosServerAddr: "http://localhost:8848/nacos",
-  nacosNamespace: "public",
-  nacosDataId: "ework-nav.json",
-  nacosGroup: "DEFAULT_GROUP",
-  apolloMeta: "http://localhost:8080",
-  apolloAppId: "ework-nav",
-  apolloNamespace: "application",
-  skipSslVerify: true
+  environment: "navi"
 };

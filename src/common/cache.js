@@ -84,7 +84,8 @@ export function removeUsed () {
 }
 
 // ------- 三方API设置 -------
-// 优先级: Cookie 覆盖 > window.ESHOP_CONFIG(部署注入) > Vite 环境变量默认
+// 优先级: Cookie 覆盖 > window.ESHOP_CONFIG(部署运行时注入) > Vite 环境变量 > 代码默认
+// 运行时注入必须赢过构建期 env,否则 docker-entrypoint 的注入不生效
 function readRuntimeConfig () {
   return (typeof window !== 'undefined' && window.ESHOP_CONFIG) || {}
 }
@@ -94,20 +95,25 @@ function env (key, fallback) {
   return v === undefined || v === '' ? fallback : v
 }
 
+function rc (key, fallback) {
+  const v = readRuntimeConfig()[key]
+  return v === undefined || v === '' ? fallback : v
+}
+
 export const RB_DEFAULTS = {
-  dataMode: env('VITE_DATA_MODE', readRuntimeConfig().dataMode || 'local'),
-  configType: env('VITE_CONFIG_TYPE', readRuntimeConfig().configType || 'rainbow-bridge'),
-  baseUrl: env('VITE_RB_BASE_URL', readRuntimeConfig().baseUrl || '/rainbow-bridge'),
-  environment: env('VITE_RB_ENVIRONMENT', readRuntimeConfig().environment || 'navi'),
-  localDataUrl: env('VITE_LOCAL_DATA_URL', readRuntimeConfig().localDataUrl || '/nav-data.json'),
-  nacosServerAddr: env('VITE_NACOS_SERVER_ADDR', readRuntimeConfig().nacosServerAddr || 'http://localhost:8848/nacos'),
-  nacosNamespace: env('VITE_NACOS_NAMESPACE', readRuntimeConfig().nacosNamespace || 'public'),
-  nacosDataId: env('VITE_NACOS_DATA_ID', readRuntimeConfig().nacosDataId || 'ework-nav.json'),
-  nacosGroup: env('VITE_NACOS_GROUP', readRuntimeConfig().nacosGroup || 'DEFAULT_GROUP'),
-  apolloMeta: env('VITE_APOLLO_META', readRuntimeConfig().apolloMeta || 'http://localhost:8080'),
-  apolloAppId: env('VITE_APOLLO_APP_ID', readRuntimeConfig().apolloAppId || 'ework-nav'),
-  apolloNamespace: env('VITE_APOLLO_NAMESPACE', readRuntimeConfig().apolloNamespace || 'application'),
-  skipSslVerify: String(env('VITE_SKIP_SSL_VERIFY', String(readRuntimeConfig().skipSslVerify === true))) === 'true',
+  dataMode: rc('dataMode', env('VITE_DATA_MODE', 'local')),
+  configType: rc('configType', env('VITE_CONFIG_TYPE', 'rainbow-bridge')),
+  baseUrl: rc('baseUrl', env('VITE_RB_BASE_URL', '/rainbow-bridge')),
+  environment: rc('environment', env('VITE_RB_ENVIRONMENT', 'navi')),
+  localDataUrl: rc('localDataUrl', env('VITE_LOCAL_DATA_URL', '/nav-data.json')),
+  nacosServerAddr: rc('nacosServerAddr', env('VITE_NACOS_SERVER_ADDR', 'http://localhost:8848/nacos')),
+  nacosNamespace: rc('nacosNamespace', env('VITE_NACOS_NAMESPACE', 'public')),
+  nacosDataId: rc('nacosDataId', env('VITE_NACOS_DATA_ID', 'ework-nav.json')),
+  nacosGroup: rc('nacosGroup', env('VITE_NACOS_GROUP', 'DEFAULT_GROUP')),
+  apolloMeta: rc('apolloMeta', env('VITE_APOLLO_META', 'http://localhost:8080')),
+  apolloAppId: rc('apolloAppId', env('VITE_APOLLO_APP_ID', 'ework-nav')),
+  apolloNamespace: rc('apolloNamespace', env('VITE_APOLLO_NAMESPACE', 'application')),
+  skipSslVerify: String(rc('skipSslVerify', env('VITE_SKIP_SSL_VERIFY', 'false'))) === 'true',
   hidePrivate: false,
   autoRefresh: true
 }
