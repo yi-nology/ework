@@ -1,5 +1,5 @@
 <template>
-  <section class="category-card" :id="title" :style="{ '--cat-color': colorForIndex(catIndex) }">
+  <section :id="title" class="category-card" :style="{ '--cat-color': colorForIndex(catIndex) }">
     <div class="card-head">
       <h3 class="title">
         <span class="dot"></span>

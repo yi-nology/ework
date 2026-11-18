@@ -5,13 +5,13 @@
         <template #icon><n-icon :component="MenuOutline" /></template>
       </n-button>
       <span class="greeting">{{ greeting }}，今天也要加油呀</span>
-      <span class="stats-chip" v-if="totalCount">{{ categories.length }} 个分类 · {{ totalCount }} 个站点</span>
-      <span class="mode-chip" v-if="isRemote">{{ settings.environment }}</span>
+      <span v-if="totalCount" class="stats-chip">{{ categories.length }} 个分类 · {{ totalCount }} 个站点</span>
+      <span v-if="isRemote" class="mode-chip">{{ settings.environment }}</span>
     </div>
 
     <div class="right">
       <transition name="fade">
-        <span class="result-chip" v-if="keyword">找到 {{ hitCount }} 个</span>
+        <span v-if="keyword" class="result-chip">找到 {{ hitCount }} 个</span>
       </transition>
       <n-tooltip v-if="releaseMeta && releaseMeta.activatedAt" trigger="hover">
         <template #trigger>

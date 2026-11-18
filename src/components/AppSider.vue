@@ -18,7 +18,7 @@
         <span class="menu-label">常用网址</span>
       </a>
 
-      <p class="group-title" v-if="categories.length">团队分类</p>
+      <p v-if="categories.length" class="group-title">团队分类</p>
       <a
         v-for="(item, index) in categories"
         :key="item.name"
@@ -37,12 +37,12 @@
         <n-icon size="16" :component="mode === 'dark' ? SunnyOutline : MoonOutline" />
         <span class="menu-label">{{ mode === 'dark' ? '亮色模式' : '暗色模式' }}</span>
       </a>
-      <a class="settings-entry" @click="showSettings = true">
+      <a v-if="enableRb" class="settings-entry" @click="showSettings = true">
         <n-icon size="16" :component="SettingsOutline" />
         <span class="menu-label">配置中心</span>
         <span class="mode-tag">{{ settings.dataMode }}</span>
       </a>
-      <SettingsDrawer v-model:show="showSettings" />
+      <SettingsDrawer v-if="enableRb" v-model:show="showSettings" />
     </div>
   </aside>
 </template>
@@ -59,6 +59,8 @@ import { colorForIndex } from '@/common/palette'
 import { useNavData } from '@/composables/useNavData'
 import { useTheme } from '@/composables/useTheme'
 import { useRbSettings } from '@/composables/useRbSettings'
+
+const enableRb = import.meta.env.VITE_ENABLE_RB !== 'false'
 import { useUiState } from '@/composables/useUiState'
 
 const { categories, activeSection } = useNavData()

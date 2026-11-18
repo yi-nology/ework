@@ -24,7 +24,7 @@ function configToNavItem (c) {
   if (typeof content === 'string') {
     try {
       content = JSON.parse(content)
-    } catch (e) {
+    } catch {
       content = null
     }
   }
@@ -170,7 +170,7 @@ export function fetchNacosConfig (serverAddr, namespace, dataId, group) {
     if (typeof content === 'string') {
       try {
         return JSON.parse(content)
-      } catch (e) {
+      } catch {
         return content
       }
     }
@@ -187,7 +187,7 @@ export function fetchApolloConfig (meta, appId, namespace) {
       if (navData) {
         try {
           return JSON.parse(navData)
-        } catch (e) {
+        } catch {
           return navData
         }
       }
